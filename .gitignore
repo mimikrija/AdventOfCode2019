@@ -1,3 +1,4 @@
 .*
 proj_files/Debug/*
 x64/*
+proj_files/AoC2019.vcxproj.user
