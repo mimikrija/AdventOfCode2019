@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\01st_of_2019.cpp" />
+    <ClCompile Include="..\02nd_of_2019.cpp" />
     <ClCompile Include="..\AoC2019.cpp" />
   </ItemGroup>
   <ItemGroup>
