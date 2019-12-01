@@ -1,9 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <iterator>
 #include <vector>
 #include <algorithm>
+#include <numeric>
 #include "DayHeaders.h"
 #pragma once
 
@@ -19,34 +19,21 @@ int FuelCalculation(int Input)
 void Day_01(ifstream& InputFile)
 {
 	int ElfInput;
-	vector<int> FuelInstructionList;
+	vector<int> FuelEstimateList,FuelEstimateListForReal;
 
-	// read integers one by one into a vector
+	// read integers one by one
+	// fill solutions into a vector
 	while (InputFile >> ElfInput)
 	{
-		FuelInstructionList.push_back(ElfInput);
+		FuelEstimateList.push_back(FuelCalculation(ElfInput));
+		FuelEstimateListForReal.push_back(FuelCalculation(ElfInput,true));
 	}
 
-	int TotalFuelNeeded = 0;
-	int maja = int(14 / 3);
+	int TotalFuelNeeded =
+		accumulate(FuelEstimateList.begin(), FuelEstimateList.end(),0);
 
-	for_each(FuelInstructionList.begin(), FuelInstructionList.end(),
-		[&TotalFuelNeeded](int ElfInput)
-		{TotalFuelNeeded += FuelCalculation(ElfInput); });
+	int TotalFuelNeededForReal =
+		accumulate(FuelEstimateListForReal.begin(), FuelEstimateListForReal.end(), 0);
 
 	cout << "Total amount of fuel needed is: " << TotalFuelNeeded << "\n";
 
-	int TotalFuelNeededForReal = 0;
-	for_each(FuelInstructionList.begin(), FuelInstructionList.end(),
-		[&TotalFuelNeededForReal](int ElfInput)
-		{
-			int tempinput = FuelCalculation(ElfInput);
-			while (tempinput > 0)
-			{
-				TotalFuelNeededForReal += tempinput;
-				tempinput = FuelCalculation(tempinput);
-			}
-		});
-
-	cout << "LOL JK, total amount neede is actually: " << TotalFuelNeededForReal << "\n";
-}
