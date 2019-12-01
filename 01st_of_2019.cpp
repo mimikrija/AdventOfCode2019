@@ -9,11 +9,11 @@
 
 using namespace std;
 
-int FuelCalculation(int Input)
+int FuelCalculation(int Input, bool part2 = false)
 {
-	int calculation = int(Input / 3) - 2;
-	if (calculation >= 0) return calculation;
-	else return 0;
+	int calculation = Input / 3 - 2;
+	if (!part2) return calculation;
+	else return(calculation > 0 ? calculation + FuelCalculation(calculation,true):0);
 }
 
 void Day_01(ifstream& InputFile)
