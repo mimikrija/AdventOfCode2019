@@ -36,4 +36,7 @@ void Day_01(ifstream& InputFile)
 		accumulate(FuelEstimateListForReal.begin(), FuelEstimateListForReal.end(), 0);
 
 	cout << "Total amount of fuel needed is: " << TotalFuelNeeded << "\n";
+	cout << "LOL JK, total amount needed is actually: " << TotalFuelNeededForReal << "\n";
+
+}
 
