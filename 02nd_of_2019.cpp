@@ -54,25 +54,38 @@ void Day_02(ifstream& InputFile)
 		default:
 			break;
 		}
-
 	}
 
-	cout << CodeList[0] << "\n";
+	cout << "Part one solution is: " << CodeList.at(0) << "!\n";
 
 	// part 2
 
-	int noun = 2;
-	int verb = 13;
-	bool change = true;
-	vector<int> Nouns(CleanCodeList.size() - 1), Verbs(CleanCodeList.size() - 1);;
+	int noun, verb;
+	int nounsize = CleanCodeList.size();
+	vector<int> Nouns(nounsize);
 	iota(Nouns.begin(), Nouns.end(), 0);
-	iota(Verbs.begin(), Verbs.end(), 0);
+	vector<int> Verbs;
+	Verbs = Nouns;
+	vector<pair<int, int>> Combinations;
+	pair<int, int> OneCombination;
+	for_each(Nouns.begin(), Nouns.end(),
+		[Verbs, &OneCombination, &Combinations](int ANoun)
+	{
+		for_each(Verbs.begin(), Verbs.end(),
+			[ANoun,&OneCombination,&Combinations](int AVerb)
+		{OneCombination = make_pair(ANoun, AVerb);
+		Combinations.push_back(OneCombination); }
+		);
+		
+	});
 
-	while (CodeList.at(0) != 19690720)
+	for (auto NounAndVerb : Combinations)
 	{
 		CodeList = CleanCodeList;
-		CodeList.at(1) = Nouns.back();
-		CodeList.at(2) = Verbs.back();
+		noun = NounAndVerb.first;
+		verb = NounAndVerb.second;
+		CodeList.at(1) = noun;
+		CodeList.at(2) = verb;
 		for (int pos = 0; pos < CodeList.size(); pos++)
 		{
 			int result;
@@ -93,21 +106,9 @@ void Day_02(ifstream& InputFile)
 				break;
 			}
 		}
-		if (change)
-		{
-			Nouns.resize(Nouns.size() - 1);
-			change = false;
-		}
-		else
-		{
-			Verbs.resize(Verbs.size() - 1);
-			change = true;
-		}
-		
+		if (CodeList.at(0) == 19690720) break;
 	}
-		
-	
 
-	//while (CodeList[0] != 19690720)
-	cout << 100 * noun + verb;
+	cout << "Part two solution is: " << 100 * noun + verb << "!\n";
+
 }
