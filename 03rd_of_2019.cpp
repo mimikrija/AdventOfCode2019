@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <set>
 #include <iterator>
@@ -9,33 +10,46 @@
 
 using namespace std;
 
-vector<pair<int, int>> VisitedHousesVector(vector<char>Instructions)
+int MinimumDistance(vector<pair<int, int>> Input)
+{
+	vector<int> distances;
+	for (auto pair : Input)
+	{
+		if (pair != make_pair(0, 0))
+		{
+			int dist = abs(pair.first) + abs(pair.second);
+			distances.push_back(dist);
+
+		}
+	}
+	return *min_element(distances.begin(),distances.end());
+}
+
+vector<pair<int,int>> WireCoordinates(string &Wire)
 {
 	// convert instructions to coordinates of visited houses
-	// v is south
-	// ^ is north
-	// > is east
-	// < is west
-	vector<pair<int, int>> temp(1, make_pair(0, 0)); // initialize;
-	pair<int, int> CurrentCoordinate;
-	for (auto OneDirection : Instructions)
+	// U is up
+	// D is down
+	// R is right
+	// L is left
+	vector<pair<int, int>> temp = { make_pair(0, 0) }; // initialize;
+	pair<int, int> CurrentCoordinate = make_pair(0, 0);
+	int pos = 0;
+	pos = Wire.find(",");
+	while ( pos != string::npos )
 	{
-		switch (OneDirection)
+		string OneDirection = Wire.substr(0, 1);
+		int Amount = stoi(Wire.substr(1, pos - 1));
+		Wire.erase(0, pos+1);
+		pos = Wire.find(",");
+		for (int inc = 1; inc <= Amount; inc++)
 		{
-		case ('<'):
-			CurrentCoordinate.first--;
-			break;
-		case ('>'):
-			CurrentCoordinate.first++;
-			break;
-		case ('v'):
-			CurrentCoordinate.second--;
-			break;
-		case ('^'):
-			CurrentCoordinate.second++;
-			break;
+			if (OneDirection == "L") CurrentCoordinate.first --;
+			if (OneDirection == "R") CurrentCoordinate.first ++;
+			if (OneDirection == "U") CurrentCoordinate.second ++;
+			if (OneDirection == "D") CurrentCoordinate.second --;
+			temp.push_back(CurrentCoordinate);
 		}
-		temp.push_back(CurrentCoordinate);
 
 	}
 	return temp;
@@ -44,56 +58,23 @@ vector<pair<int, int>> VisitedHousesVector(vector<char>Instructions)
 void Day_03(ifstream& InputFile)
 {
 
-	char OneDirection;
-	vector<char> WackyElfInstructions;
-
-	while (InputFile >> OneDirection)
-	{
-		WackyElfInstructions.push_back(OneDirection);
-	}
 
 
-	vector<pair<int, int>> VisitedHouses = VisitedHousesVector(WackyElfInstructions);
-	set<pair<int, int>> UniqueCoordinates(VisitedHouses.begin(),VisitedHouses.end());
-	cout << "This Christmas there were " << UniqueCoordinates.size() << " houses which got at least one gift! \n";
+	vector<string> WireInputs{ istream_iterator<string>{InputFile},{} };
+	string WireOne = WireInputs.at(0);
+	string WireTwo = WireInputs.at(1);
+	auto WireOneCoordinates = WireCoordinates(WireOne);
+	auto WireTwoCoordinates = WireCoordinates(WireTwo);
+
+	sort(WireOneCoordinates.begin(), WireOneCoordinates.end());
+	sort(WireTwoCoordinates.begin(), WireTwoCoordinates.end());
+	
+	int sizeint = min(WireOneCoordinates.size(), WireTwoCoordinates.size());
+	vector<pair<int,int>> Intersections(sizeint);
+	auto it = set_intersection(WireOneCoordinates.begin(), WireOneCoordinates.end(), WireTwoCoordinates.begin(), WireTwoCoordinates.end(), Intersections.begin());
+	Intersections.resize(it - Intersections.begin());
 
 
-	// This is me missunderstanding the first part of the puzzle
-	// ****
-	//vector<pair<int, int>> LuckyHouses(UniqueCoordinates.size());
-	//auto it = copy_if(UniqueCoordinates.begin(), UniqueCoordinates.end(), LuckyHouses.begin(), [VisitedHouses](auto House) {return count(VisitedHouses.begin(), VisitedHouses.end(), House) > 1; });
-	//LuckyHouses.resize(distance(LuckyHouses.begin(), it));
-	//cout << "This Christmas there were " << LuckyHouses.size() << " houses which got at least two gifts! \n";
-	// ****
-
-	// second part: Santa and Robo Santa deliver the gifts together
-	vector <char> SantaInstructions, RoboInstructions;
-
-	auto it = WackyElfInstructions.begin();
-	while (it != WackyElfInstructions.end())
-	{
-		int check = it - WackyElfInstructions.begin();
-		
-		if (check % 2 == 1)
-		{
-			SantaInstructions.push_back(*it); // odd directions go to Santa;
-		}
-		else
-		{
-			RoboInstructions.push_back(*it); // even directions go to Robo;
-		}
-		it++;
-	}
-	vector <pair<int, int>> SantaHouses, RoboHouses;
-	SantaHouses = VisitedHousesVector(SantaInstructions);
-	RoboHouses = VisitedHousesVector(RoboInstructions);
-
-	auto JointHouses = SantaHouses;
-	JointHouses.insert(JointHouses.end(), RoboHouses.begin(), RoboHouses.end());
-
-	set<pair<int, int>> UniqueJointCoordinates(JointHouses.begin(),JointHouses.end());
-
-	cout << "When Santa and Robosanta work together, " << UniqueJointCoordinates.size() << " houses get at least one gift!\n";
-
+	cout << "Minimal distance of the intersection is: " << MinimumDistance(Intersections) << "!\n";
 	
 }
