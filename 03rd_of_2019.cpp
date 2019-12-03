@@ -66,6 +66,10 @@ void Day_03(ifstream& InputFile)
 	auto WireOneCoordinates = WireCoordinates(WireOne);
 	auto WireTwoCoordinates = WireCoordinates(WireTwo);
 
+	// keep them unsorted for part 2
+	auto WireOneCoordinatesPartTwo = WireOneCoordinates;
+	auto WireTwoCoordinatesPartTwo = WireTwoCoordinates;
+
 	sort(WireOneCoordinates.begin(), WireOneCoordinates.end());
 	sort(WireTwoCoordinates.begin(), WireTwoCoordinates.end());
 	
@@ -76,5 +80,18 @@ void Day_03(ifstream& InputFile)
 
 
 	cout << "Minimal distance of the intersection is: " << MinimumDistance(Intersections) << "!\n";
+
+	// part2
+	vector<int> AllDistances;
+	for (auto Intersection : Intersections)
+	{
+		auto ItOne = find(WireOneCoordinatesPartTwo.begin(), WireOneCoordinatesPartTwo.end(), Intersection);
+		auto ItTwo = find(WireTwoCoordinatesPartTwo.begin(), WireTwoCoordinatesPartTwo.end(), Intersection);
+		int dist = distance(WireOneCoordinatesPartTwo.begin(), ItOne) + distance(WireTwoCoordinatesPartTwo.begin(), ItTwo);
+		AllDistances.push_back(dist);
+	}
+	sort(AllDistances.begin(), AllDistances.end());
 	
+	cout << "Minimal number of steps from both wires to an intersection is " << AllDistances.at(1) << "!\n";
+
 }
