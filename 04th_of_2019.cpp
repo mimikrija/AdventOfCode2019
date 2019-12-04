@@ -32,25 +32,27 @@ void Day_04(ifstream& InputFile)
 			adjacent_find(VectorCandidate.begin(), VectorCandidate.end()) != VectorCandidate.end())
 		{
 			Counter++;
-			auto it = VectorCandidate.begin();
-			while (it != VectorCandidate.end())
+			vector<int> UniqueDigits = VectorCandidate;
+			auto it = unique(UniqueDigits.begin(), UniqueDigits.end());
+			UniqueDigits.resize(it - UniqueDigits.begin());
+			for (auto UniqueDigit : UniqueDigits)
 			{
-				it = adjacent_find(it, VectorCandidate.end());
-				int counter = count_if(VectorCandidate.begin(), VectorCandidate.end(),
-					[it](int RepeatingDigit) {return RepeatingDigit == *it; });
-				if (counter == 2)
+				if (count_if(VectorCandidate.begin(), VectorCandidate.end(), [UniqueDigit](int CandidateDigit)
+				{return CandidateDigit == UniqueDigit; }) == 2)
 				{
 					CounterExtraRule++;
 					break;
 				}
 				
 			}
-
+			
 		}
 
 	}
 
-	cout << Counter;
+	cout << Counter << "\n";
+	cout << CounterExtraRule << "\n";
+
 
 
 }
