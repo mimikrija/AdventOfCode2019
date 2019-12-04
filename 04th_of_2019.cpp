@@ -28,13 +28,14 @@ void Day_04(ifstream& InputFile)
 		vector<int> VectorCandidate = {};
 		for (auto digit : StringVersion) VectorCandidate.push_back(digit-48);
 		// rule 1: the digits must be in ascending order
-		// rule 2: there must be some c
+		// rule 2: the password must contain at least two adjacent same digits
 		if (!prev_permutation(VectorCandidate.begin(), VectorCandidate.end())
 			&&
 			adjacent_find(VectorCandidate.begin(), VectorCandidate.end()) != VectorCandidate.end())
 		{
 			Counter++;
-			// part 2: extra rule
+			// part 2: extra rule:
+			// there must be at least one repeating PAIR (no more than two)
 			vector<int> UniqueDigits = VectorCandidate;
 			auto it = unique(UniqueDigits.begin(), UniqueDigits.end());
 			UniqueDigits.resize(it - UniqueDigits.begin());
