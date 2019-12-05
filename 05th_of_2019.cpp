@@ -21,7 +21,8 @@ int GetCode(int BigCode)
 
 int GetFirstParameterMode(int BigCode)
 {
-	return (BigCode / 100)%10;
+	if (BigCode == 3) return 1;
+	else return (BigCode / 100) % 10;
 }
 
 int GetSecondParameterMode(int BigCode)
