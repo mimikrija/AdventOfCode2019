@@ -94,4 +94,6 @@ void Day_03(ifstream& InputFile)
 	
 	cout << "Minimal number of steps from both wires to an intersection is " << AllDistances.at(1) << "!\n";
 
+	// part 1: 1084
+	// part 2: 9240
 }
