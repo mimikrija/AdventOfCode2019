@@ -48,6 +48,8 @@ int NumberOfParameters(int code)
 		return 1;
 	case 4:
 		return 1;
+	case 5:
+		return 2;
 	}
 }
 
@@ -138,9 +140,13 @@ void Day_05(ifstream& InputFile)
 			pos += ParametersInCommand + 1;
 			break;
 
+		case 5:
+			if (FirstParameter != 0) pos = SecondParameter;
+
 		default:
 			break;
 		}
+
 
 		// default writing behavior:
 		if ( code != 4) CodeList.at(WritePosition) = result;
