@@ -21,6 +21,8 @@ int GetCode(int BigCode)
 
 int GetFirstParameterMode(int BigCode)
 {
+	//  always use immediate mode for code 3!
+	if ( GetCode(BigCode) == 3 ) return 1;
 	return (BigCode / 100) % 10;
 }
 
@@ -34,7 +36,7 @@ int GetThirdParameterMode(int BigCode)
 	return (BigCode / 10000) % 10;
 }
 
-int GetArgumentCount(int code)
+int NumberOfParameters(int code)
 {
 	switch (code)
 	{
@@ -67,7 +69,7 @@ int GetResult(int code, int first = 0, int second = 0)
 }
 void Day_05(ifstream& InputFile)
 {
-	vector<int> CodeList, CleanCodeList;
+	vector<int> CodeList;
 
 	// read integers one by one
 	// fill solutions into a vector
@@ -83,8 +85,6 @@ void Day_05(ifstream& InputFile)
 		}
 	}
 
-	CleanCodeList = CodeList;
-
 
 	int pos = 0;
 	cout << "Give me the input: ";
@@ -99,61 +99,49 @@ void Day_05(ifstream& InputFile)
 			pos++;
 			break;
 		}
-		
-		int RelativeWritePosition = GetArgumentCount(code);
-		
-		int firstarg;
-		int secondarg;
-		int WritePosition = 0;
-		if ( code == 1 || code == 2 ) // these take two parameters
-		{
-			if (GetFirstParameterMode(CodeList.at(pos)) == 0)
-			{
-				// position mode
-				firstarg = CodeList.at(CodeList.at(pos + 1));
-			}
-			else
-			{
-				// immediate mode
-				firstarg = CodeList.at(pos + 1);
-			}
 
-			if (GetSecondParameterMode(CodeList.at(pos)) == 0)
-			{
-				// position mode
-				secondarg = CodeList.at(CodeList.at(pos + 2));
-			}
-			else
-			{
-				// immediate mode
-				secondarg = CodeList.at(pos + 2);
-			}
-			WritePosition = CodeList.at(pos + RelativeWritePosition);
-		}
-		if ( code ==3 || code == 4) //  always use immediate mode
+		int ParametersInCommand = NumberOfParameters(code);
+		bool PositionModeFirst = !GetFirstParameterMode(CodeList.at(pos));
+		bool PositionModeSecond;
+		int FirstParameter, SecondParameter;
+		int WritePosition = 0;
+		PositionModeFirst ?
+			FirstParameter = CodeList.at(CodeList.at(pos + 1))
+			:
+			FirstParameter = CodeList.at(pos + 1);
+		if (ParametersInCommand > 1)
 		{
-				firstarg = CodeList.at(pos + 1);
+			PositionModeSecond = !GetSecondParameterMode(CodeList.at(pos));
+			PositionModeSecond ?
+				SecondParameter = CodeList.at(CodeList.at(pos + 2))
+				:
+				SecondParameter = CodeList.at(pos + 2);
 		}
-		if (code == 3) WritePosition = firstarg;
-		// no write position for code == 4
 
 		switch (code)
 		{
-		case 1: // takes three arguments
-			CodeList.at(WritePosition) = firstarg + secondarg;
+		case 1: case 2:
+			result = GetResult(code, FirstParameter, SecondParameter);
+			WritePosition = CodeList.at(pos + ParametersInCommand);
 			break;
-		case 2: // takes three arguments
-			CodeList.at(WritePosition) = firstarg * secondarg;
+
+		case 3:
+			WritePosition = FirstParameter;
+			result = UserInput;
 			break;
-		case 3: // takes one argument
-			CodeList.at(WritePosition) = UserInput;
+
+		case 4:
+			result = FirstParameter;
+			cout << "Output produced " << result << "\n";
 			break;
-		case 4: // takes one argument
-			cout << "Output produced " << CodeList.at(firstarg) << "\n";
+
 		default:
 			break;
 		}
-		pos += RelativeWritePosition + 1;
+
+		// default writing behavior:
+		if ( code != 4) CodeList.at(WritePosition) = result;
+		pos += ParametersInCommand + 1;
 	}
 
 	// solution part 1: 13346482
@@ -161,5 +149,4 @@ void Day_05(ifstream& InputFile)
 
 	// part 2
 
-	
 }
