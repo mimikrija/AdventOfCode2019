@@ -157,15 +157,17 @@ void Day_05(ifstream& InputFile)
 
 		case 5:
 			FirstParameter != 0 ? pos = SecondParameter : pos+= ParametersInCommand + 1;
+			break;
 
 		case 6:
 			FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
+			break;
 		
 		case 7:
 			FirstParameter < SecondParameter ? result = 1 : result = 0;
 			WritePosition = ThirdParameter;
 			pos += ParametersInCommand + 1;
-
+			break;
 
 		default:
 			break;
