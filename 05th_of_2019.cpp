@@ -11,6 +11,28 @@
 
 using namespace std;
 
+int GetCode(int BigCode)
+{
+	if (BigCode < 100) return BigCode;
+	if (BigCode < 1000) return BigCode % 10;
+	if (BigCode < 10'000) return BigCode % 100;
+	return BigCode % 1'000;
+}
+
+int GetFirstParameterMode(int BigCode)
+{
+	return (BigCode / 100)%10;
+}
+
+int GetSecondParameterMode(int BigCode)
+{
+	return (BigCode / 1000) % 10;
+}
+
+int GetThirdParameterMode(int BigCode)
+{
+	return (BigCode / 10000) % 10;
+}
 
 void Day_05(ifstream& InputFile)
 {
