@@ -34,8 +34,8 @@ void Day_05(ifstream& InputFile)
 	CodeList.at(1) = 12;
 	CodeList.at(2) = 2;
 
-
-	for (int pos = 0; pos < CodeList.size(); pos++)
+	int pos = 0;
+	while ( pos < CodeList.size())
 	{
 		int result;
 		int code = CodeList.at(pos * 4);
@@ -59,6 +59,7 @@ void Day_05(ifstream& InputFile)
 		default:
 			break;
 		}
+		pos++;
 	}
 
 	cout << "Part one solution is: " << CodeList.at(0) << "!\n";
