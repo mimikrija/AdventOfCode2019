@@ -43,7 +43,7 @@ int NumberOfParameters(int code)
 	{
 	case 1:
 		return 3;
-	case 2: case 7:
+	case 2: case 7: case 8:
 		return 3;
 	case 3:
 		return 1;
@@ -165,6 +165,12 @@ void Day_05(ifstream& InputFile)
 		
 		case 7:
 			FirstParameter < SecondParameter ? result = 1 : result = 0;
+			WritePosition = ThirdParameter;
+			pos += ParametersInCommand + 1;
+			break;
+
+		case 8:
+			FirstParameter == SecondParameter ? result = 1 : result = 0;
 			WritePosition = ThirdParameter;
 			pos += ParametersInCommand + 1;
 			break;
