@@ -21,8 +21,7 @@ int GetCode(int BigCode)
 
 int GetFirstParameterMode(int BigCode)
 {
-	if (BigCode == 3) return 0;
-	else return (BigCode / 100) % 10;
+	return (BigCode / 100) % 10;
 }
 
 int GetSecondParameterMode(int BigCode)
@@ -89,7 +88,7 @@ void Day_05(ifstream& InputFile)
 
 	int pos = 0;
 	int InputValue = 1; //we provide that to the program
-	while ( pos <= CodeList.size())
+	while ( pos < CodeList.size())
 	{
 		int result;
 		int code = GetCode(CodeList.at(pos));
@@ -129,21 +128,12 @@ void Day_05(ifstream& InputFile)
 			}
 			WritePosition = CodeList.at(pos + RelativeWritePosition);
 		}
-		if (RelativeWritePosition == 1)
+		if ( code ==3 || code == 4) //  always use immediate mode
 		{
-			if (GetFirstParameterMode(CodeList.at(pos)) == 0)
-			{
-				// position mode
-				firstarg = CodeList.at(CodeList.at(pos + 1));
-			}
-			else
-			{
-				// immediate mode
 				firstarg = CodeList.at(pos + 1);
-			}
 		}
 		if (code == 3) WritePosition = firstarg;
-		if (code == 4) firstarg = CodeList.at(pos + 1);
+		// no write position for code == 4
 
 		switch (code)
 		{
@@ -163,10 +153,8 @@ void Day_05(ifstream& InputFile)
 		}
 		pos += RelativeWritePosition + 1;
 	}
-// not 224224224224224224224224223 too high
-// not 99
-	// 223 too low
-	//
+
+	// solution part 1: 13346482
 
 
 	// part 2
