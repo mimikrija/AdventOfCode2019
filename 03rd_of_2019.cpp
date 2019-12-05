@@ -79,7 +79,7 @@ void Day_03(ifstream& InputFile)
 	Intersections.resize(it - Intersections.begin());
 
 
-	cout << "Minimal distance of the intersection is: " << MinimumDistance(Intersections) << "!\n";
+	cout << "Minimal distance of the intersection is " << MinimumDistance(Intersections) << "!\n";
 
 	// part2
 	vector<int> AllDistances;
