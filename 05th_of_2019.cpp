@@ -160,6 +160,12 @@ void Day_05(ifstream& InputFile)
 
 		case 6:
 			FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
+		
+		case 7:
+			FirstParameter < SecondParameter ? result = 1 : result = 0;
+			WritePosition = ThirdParameter;
+			pos += ParametersInCommand + 1;
+
 
 		default:
 			break;
