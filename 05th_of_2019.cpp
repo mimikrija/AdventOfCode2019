@@ -53,10 +53,10 @@ void Day_05(ifstream& InputFile)
 	}
 
 	CleanCodeList = CodeList;
-	CodeList.at(1) = 12;
-	CodeList.at(2) = 2;
+
 
 	int pos = 0;
+	int InputValue = 1; //we provide that to the program
 	while ( pos < CodeList.size())
 	{
 		int result;
@@ -66,6 +66,7 @@ void Day_05(ifstream& InputFile)
 			pos++;
 			break;
 		}
+		// need to add switches because 3 and 4 don't take args the same way
 		int firstarg;
 		if (GetFirstParameterMode(CodeList.at(pos)) == 0)
 		{
@@ -103,11 +104,11 @@ void Day_05(ifstream& InputFile)
 			pos += 4;
 			break;
 		case 3: // takes one argument
-			CodeList.at(inputpos) = firstarg;
+			CodeList.at(inputpos) = InputValue;
 			pos += 2;
 			break;
 		case 4: // takes one argument
-			cout << CodeList.at(firstarg);
+			cout << firstarg;
 			pos += 2;
 		default:
 			break;
@@ -118,55 +119,5 @@ void Day_05(ifstream& InputFile)
 
 	// part 2
 
-	int noun, verb;
-	int nounsize = CleanCodeList.size();
-	vector<int> Nouns(nounsize);
-	iota(Nouns.begin(), Nouns.end(), 0);
-	vector<int> Verbs;
-	Verbs = Nouns;
-	vector<pair<int, int>> Combinations;
-	pair<int, int> OneCombination;
-	for_each(Nouns.begin(), Nouns.end(),
-		[Verbs, &OneCombination, &Combinations](int ANoun)
-	{
-		for_each(Verbs.begin(), Verbs.end(),
-			[ANoun,&OneCombination,&Combinations](int AVerb)
-		{OneCombination = make_pair(ANoun, AVerb);
-		Combinations.push_back(OneCombination); }
-		);
-		
-	});
-
-	for (auto NounAndVerb : Combinations)
-	{
-		CodeList = CleanCodeList;
-		noun = NounAndVerb.first;
-		verb = NounAndVerb.second;
-		CodeList.at(1) = noun;
-		CodeList.at(2) = verb;
-		for (int pos = 0; pos < CodeList.size(); pos++)
-		{
-			int result;
-			int code = CodeList.at(pos * 4);
-			if (code == 99) break;
-			int inputpos = CodeList.at(pos * 4 + 3);
-			int firstarg = CodeList.at(pos * 4 + 1);
-			int secondarg = CodeList.at(pos * 4 + 2);
-			switch (code)
-			{
-			case 1:
-				CodeList.at(inputpos) = CodeList.at(firstarg) + CodeList.at(secondarg);
-				break;
-			case 2:
-				CodeList.at(inputpos) = CodeList.at(firstarg) * CodeList.at(secondarg);
-				break;
-			default:
-				break;
-			}
-		}
-		if (CodeList.at(0) == 19690720) break;
-	}
-
-	cout << "Part two solution is: " << 100 * noun + verb << "!\n";
-
+	
 }
