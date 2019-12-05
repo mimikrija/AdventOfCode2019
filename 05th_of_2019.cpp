@@ -105,7 +105,7 @@ void Day_05(ifstream& InputFile)
 		int firstarg;
 		int secondarg;
 		int WritePosition = 0;
-		if (RelativeWritePosition == 3)
+		if ( code == 1 || code == 2 ) // these take two parameters
 		{
 			if (GetFirstParameterMode(CodeList.at(pos)) == 0)
 			{
