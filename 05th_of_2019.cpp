@@ -48,7 +48,7 @@ int NumberOfParameters(int code)
 		return 1;
 	case 4:
 		return 1;
-	case 5:
+	case 5: case 6:
 		return 2;
 	}
 }
@@ -141,7 +141,10 @@ void Day_05(ifstream& InputFile)
 			break;
 
 		case 5:
-			if (FirstParameter != 0) pos = SecondParameter;
+			FirstParameter != 0 ? pos = SecondParameter : pos+= ParametersInCommand + 1;
+
+		case 6:
+			FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
 
 		default:
 			break;
