@@ -87,7 +87,9 @@ void Day_05(ifstream& InputFile)
 
 
 	int pos = 0;
-	int InputValue = 1; //we provide that to the program
+	cout << "Give me the input: ";
+	int UserInput;//we provide that to the program
+	cin >> UserInput;
 	while ( pos < CodeList.size())
 	{
 		int result;
@@ -144,7 +146,7 @@ void Day_05(ifstream& InputFile)
 			CodeList.at(WritePosition) = firstarg * secondarg;
 			break;
 		case 3: // takes one argument
-			CodeList.at(WritePosition) = InputValue;
+			CodeList.at(WritePosition) = UserInput;
 			break;
 		case 4: // takes one argument
 			cout << "Output produced " << CodeList.at(firstarg) << "\n";
