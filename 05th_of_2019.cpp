@@ -51,6 +51,11 @@ void Day_05(ifstream& InputFile)
 		case 2:
 			CodeList.at(inputpos) = CodeList.at(firstarg) * CodeList.at(secondarg);
 			break;
+		case 3:
+			CodeList.at(inputpos) = CodeList.at(firstarg);
+			break;
+		case 4:
+			cout << CodeList.at(firstarg);
 		default:
 			break;
 		}
