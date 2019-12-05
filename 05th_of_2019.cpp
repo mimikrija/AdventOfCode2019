@@ -33,7 +33,8 @@ int GetSecondParameterMode(int BigCode)
 
 int GetThirdParameterMode(int BigCode)
 {
-	if (GetCode(BigCode) == 1 || GetCode(BigCode) == 2) return 1;
+	if (GetCode(BigCode) == 1 || GetCode(BigCode) == 2
+		|| GetCode(BigCode) == 7 || GetCode(BigCode) == 8) return 1;
 	return (BigCode / 10000) % 10;
 }
 
