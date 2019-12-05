@@ -60,28 +60,35 @@ void Day_05(ifstream& InputFile)
 	while ( pos < CodeList.size())
 	{
 		int result;
-		int code = CodeList.at(pos * 4);
-		if (code == 99) break;
-		int inputpos = CodeList.at(pos * 4 + 3);
-		int firstarg = CodeList.at(pos * 4 + 1);
-		int secondarg = CodeList.at(pos * 4 + 2);
+		int code = GetCode(CodeList.at(pos));
+		if (code == 99)
+		{
+			pos++;
+			break;
+		}
+		int inputpos = CodeList.at(pos + 3);
+		int firstarg = CodeList.at(pos + 1);
+		int secondarg = CodeList.at(pos + 2);
 		switch (code)
 		{
-		case 1:
+		case 1: // takes three arguments
 			CodeList.at(inputpos) = CodeList.at(firstarg) + CodeList.at(secondarg);
+			pos += 4;
 			break;
-		case 2:
+		case 2: // takes three arguments
 			CodeList.at(inputpos) = CodeList.at(firstarg) * CodeList.at(secondarg);
+			pos += 4;
 			break;
-		case 3:
+		case 3: // takes one argument
 			CodeList.at(inputpos) = CodeList.at(firstarg);
+			pos += 2;
 			break;
-		case 4:
+		case 4: // takes one argument
 			cout << CodeList.at(firstarg);
+			pos += 2;
 		default:
 			break;
 		}
-		pos++;
 	}
 
 	cout << "Part one solution is: " << CodeList.at(0) << "!\n";
