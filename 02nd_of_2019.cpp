@@ -110,5 +110,6 @@ void Day_02(ifstream& InputFile)
 	}
 
 	cout << "Part two solution is: " << 100 * noun + verb << "!\n";
-
+	// Part one solution is : 3516593!
+	// Part two solution is : 7749!
 }
