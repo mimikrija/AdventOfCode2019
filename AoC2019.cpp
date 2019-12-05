@@ -26,20 +26,28 @@ int main()
 	{
 	case 1:
 		Day_01(InputFile);
+		break;
 	case 2:
 		Day_02(InputFile);
+		break;
 	case 3:
 		Day_03(InputFile);
+		break;
 	case 4:
 		Day_04(InputFile);
+		break;
 	case 5:
 		Day_05(InputFile);
+		break;
 	case 6:
 		Day_06(InputFile);
+		break;
 	//case 7:
 	//	Day_07(InputFile);
+	//	break;
 	//case 8:
 	//	Day_08(InputFile);
+	//	break;
 	}
 
 	return 0;
