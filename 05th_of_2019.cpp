@@ -181,8 +181,8 @@ void Day_05(ifstream& InputFile)
 		}
 
 
-		// default writing behavior:
-		if ( code != 4) CodeList.at(WritePosition) = result;
+		// exclude codes which do not write
+		if ( !( code == 4 || code ==5 || code ==6)) CodeList.at(WritePosition) = result;
 		
 	}
 
