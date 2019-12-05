@@ -33,6 +33,7 @@ int GetSecondParameterMode(int BigCode)
 
 int GetThirdParameterMode(int BigCode)
 {
+	if (GetCode(BigCode) == 1 || GetCode(BigCode) == 2) return 1;
 	return (BigCode / 10000) % 10;
 }
 
@@ -42,7 +43,7 @@ int NumberOfParameters(int code)
 	{
 	case 1:
 		return 3;
-	case 2:
+	case 2: case 7:
 		return 3;
 	case 3:
 		return 1;
@@ -104,14 +105,19 @@ void Day_05(ifstream& InputFile)
 
 		int ParametersInCommand = NumberOfParameters(code);
 		bool PositionModeFirst = !GetFirstParameterMode(CodeList.at(pos));
-		bool PositionModeSecond;
-		int FirstParameter, SecondParameter;
+		bool PositionModeSecond, PositionModeThird;
+		int FirstParameter, SecondParameter, ThirdParameter;
 		int WritePosition = 0;
-		PositionModeFirst ?
-			FirstParameter = CodeList.at(CodeList.at(pos + 1))
-			:
-			FirstParameter = CodeList.at(pos + 1);
-		if (ParametersInCommand > 1)
+		
+		// default
+		if (ParametersInCommand >= 1)
+		{
+			PositionModeFirst ?
+				FirstParameter = CodeList.at(CodeList.at(pos + 1))
+				:
+				FirstParameter = CodeList.at(pos + 1);
+		}
+		if (ParametersInCommand >= 2)
 		{
 			PositionModeSecond = !GetSecondParameterMode(CodeList.at(pos));
 			PositionModeSecond ?
@@ -119,12 +125,21 @@ void Day_05(ifstream& InputFile)
 				:
 				SecondParameter = CodeList.at(pos + 2);
 		}
+		if (ParametersInCommand >= 3)
+		{
+			PositionModeThird = !GetThirdParameterMode(CodeList.at(pos));
+			PositionModeThird ?
+				ThirdParameter = CodeList.at(CodeList.at(pos + 3))
+				:
+				ThirdParameter = CodeList.at(pos + 3);
+		}
+
 
 		switch (code)
 		{
 		case 1: case 2:
 			result = GetResult(code, FirstParameter, SecondParameter);
-			WritePosition = CodeList.at(pos + ParametersInCommand);
+			WritePosition = ThirdParameter;
 			pos += ParametersInCommand + 1;
 			break;
 
