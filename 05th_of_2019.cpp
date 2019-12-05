@@ -33,6 +33,7 @@ int GetSecondParameterMode(int BigCode)
 
 int GetThirdParameterMode(int BigCode)
 {
+	//  always use immediate mode for codes 1, 2, 7, 8!
 	if (GetCode(BigCode) == 1 || GetCode(BigCode) == 2
 		|| GetCode(BigCode) == 7 || GetCode(BigCode) == 8) return 1;
 	return (BigCode / 10000) % 10;
@@ -42,14 +43,12 @@ int NumberOfParameters(int code)
 {
 	switch (code)
 	{
-	case 1:
+	case 1: case 2: case 7: case 8:
 		return 3;
-	case 2: case 7: case 8:
-		return 3;
-	case 3:
+
+	case 3: case 4:
 		return 1;
-	case 4:
-		return 1;
+
 	case 5: case 6:
 		return 2;
 	}
@@ -63,10 +62,14 @@ int GetResult(int code, int first = 0, int second = 0)
 		return first + second;
 	case 2:
 		return first*second;
-	case 3:
-		return 0; // no output
 	case 4:
 		return first;
+	case 7:
+		if (first < second) return 1;
+		else return 0;
+	case 8:
+		if (first == second) return 1;
+		else return 0;
 	default:
 		return 0;
 	}
@@ -138,7 +141,7 @@ void Day_05(ifstream& InputFile)
 
 		switch (code)
 		{
-		case 1: case 2:
+		case 1: case 2: case 7: case 8:
 			result = GetResult(code, FirstParameter, SecondParameter);
 			WritePosition = ThirdParameter;
 			pos += ParametersInCommand + 1;
@@ -163,32 +166,18 @@ void Day_05(ifstream& InputFile)
 		case 6:
 			FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
 			break;
-		
-		case 7:
-			FirstParameter < SecondParameter ? result = 1 : result = 0;
-			WritePosition = ThirdParameter;
-			pos += ParametersInCommand + 1;
-			break;
-
-		case 8:
-			FirstParameter == SecondParameter ? result = 1 : result = 0;
-			WritePosition = ThirdParameter;
-			pos += ParametersInCommand + 1;
-			break;
 
 		default:
 			break;
 		}
 
-
 		// exclude codes which do not write
-		if ( !( code == 4 || code ==5 || code ==6)) CodeList.at(WritePosition) = result;
+		if ( !( code == 4 || code ==5 || code ==6))
+			CodeList.at(WritePosition) = result;
 		
 	}
 
 	// solution part 1: 13346482
 	// solution part 2: 12111395
-
-	// part 2
 
 }
