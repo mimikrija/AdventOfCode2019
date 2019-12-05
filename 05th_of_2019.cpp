@@ -66,21 +66,44 @@ void Day_05(ifstream& InputFile)
 			pos++;
 			break;
 		}
+		int firstarg;
+		if (GetFirstParameterMode(CodeList.at(pos)) == 0)
+		{
+			// position mode
+			firstarg = CodeList.at(CodeList.at(pos + 1));
+		}
+		else
+		{
+			// immediate mode
+			firstarg = CodeList.at(pos + 1);
+		}
+
+		int secondarg;
+		if (GetSecondParameterMode(CodeList.at(pos)) == 0)
+		{
+			// position mode
+			secondarg = CodeList.at(CodeList.at(pos + 2));
+		}
+		else
+		{
+			// immediate mode
+			secondarg = CodeList.at(pos + 2);
+		}
+
 		int inputpos = CodeList.at(pos + 3);
-		int firstarg = CodeList.at(pos + 1);
-		int secondarg = CodeList.at(pos + 2);
+
 		switch (code)
 		{
 		case 1: // takes three arguments
-			CodeList.at(inputpos) = CodeList.at(firstarg) + CodeList.at(secondarg);
+			CodeList.at(inputpos) = firstarg + secondarg;
 			pos += 4;
 			break;
 		case 2: // takes three arguments
-			CodeList.at(inputpos) = CodeList.at(firstarg) * CodeList.at(secondarg);
+			CodeList.at(inputpos) = firstarg * secondarg;
 			pos += 4;
 			break;
 		case 3: // takes one argument
-			CodeList.at(inputpos) = CodeList.at(firstarg);
+			CodeList.at(inputpos) = firstarg;
 			pos += 2;
 			break;
 		case 4: // takes one argument
