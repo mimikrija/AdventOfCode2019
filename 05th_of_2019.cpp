@@ -123,16 +123,19 @@ void Day_05(ifstream& InputFile)
 		case 1: case 2:
 			result = GetResult(code, FirstParameter, SecondParameter);
 			WritePosition = CodeList.at(pos + ParametersInCommand);
+			pos += ParametersInCommand + 1;
 			break;
 
 		case 3:
 			WritePosition = FirstParameter;
 			result = UserInput;
+			pos += ParametersInCommand + 1;
 			break;
 
 		case 4:
 			result = FirstParameter;
 			cout << "Output produced " << result << "\n";
+			pos += ParametersInCommand + 1;
 			break;
 
 		default:
@@ -141,7 +144,7 @@ void Day_05(ifstream& InputFile)
 
 		// default writing behavior:
 		if ( code != 4) CodeList.at(WritePosition) = result;
-		pos += ParametersInCommand + 1;
+		
 	}
 
 	// solution part 1: 13346482
