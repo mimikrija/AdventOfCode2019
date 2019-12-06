@@ -50,5 +50,7 @@ void Day_06(ifstream& InputFile)
 		}
 	}
 
+	int TotalOrbitalCount = accumulate(OrbitCounts.begin(), OrbitCounts.end()
+		,0, [](int value,auto p) { return value + p.second; });
 
 }
