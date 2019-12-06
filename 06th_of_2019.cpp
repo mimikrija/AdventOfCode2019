@@ -14,7 +14,7 @@ using namespace std;
 
 void Day_06(ifstream& InputFile)
 {
-	map <string, string> OrbitDefintions;
+	map <string, string> OrbitDefinitions;
 	map <string, int> OrbitCounts;
 	// parse input
 	vector<string> ListOfInputs{ istream_iterator<string>{InputFile},{} };
@@ -23,28 +23,25 @@ void Day_06(ifstream& InputFile)
 		int pos_separator = OneOrbit.find(')');
 		string CenterOfRotation = OneOrbit.substr(0, pos_separator);
 		string Planet = OneOrbit.substr(pos_separator+1);
-		OrbitDefintions[Planet] = CenterOfRotation;
+		OrbitDefinitions[Planet] = CenterOfRotation;
 		OrbitCounts[Planet] = 0;
 	}
 
 	// part 2:
-	int YouPath = 0;
-	int SantaPath = 0;
-	int DistanceYouToSanta = 0;
-	string LookingFor = "YOU";
 	vector<string> YouChain = {};
 	vector<string> SantaChain = {};
-	while ( OrbitDefintions.find(LookingFor) != OrbitDefintions.end())
+	
+	string LookingFor = "YOU";
+	while ( OrbitDefinitions.find(LookingFor) != OrbitDefinitions.end())
 	{
-		YouPath++;
-		LookingFor = OrbitDefintions.find(LookingFor)->second;
+		LookingFor = OrbitDefinitions.find(LookingFor)->second;
 		YouChain.push_back(LookingFor);
 	}
+	
 	LookingFor = "SAN";
-	while (OrbitDefintions.find(LookingFor) != OrbitDefintions.end())
+	while (OrbitDefinitions.find(LookingFor) != OrbitDefinitions.end())
 	{
-		YouPath++;
-		LookingFor = OrbitDefintions.find(LookingFor)->second;
+		LookingFor = OrbitDefinitions.find(LookingFor)->second;
 		SantaChain.push_back(LookingFor);
 	}
 	
@@ -53,21 +50,22 @@ void Day_06(ifstream& InputFile)
 	vector<string> ToTheMergebase(SantaChain.size()+YouChain.size());
 	auto diff = set_symmetric_difference(SantaChain.begin(), SantaChain.end(), YouChain.begin(), YouChain.end(),ToTheMergebase.begin());
 	ToTheMergebase.resize(diff - ToTheMergebase.begin());
-	DistanceYouToSanta = ToTheMergebase.size();
-
+	int DistanceYouToSanta = ToTheMergebase.size();
+	
+	// part 1:
 	string CurrentCenter = "COM";
 
 	vector<string> SoFarInTheChain = { CurrentCenter };
-	while (OrbitDefintions.size() != 0)
+	while (OrbitDefinitions.size() != 0)
 	{
-		auto it = find_if(OrbitDefintions.begin(), OrbitDefintions.end(),
+		auto it = find_if(OrbitDefinitions.begin(), OrbitDefinitions.end(),
 		[CurrentCenter](auto Definition) {return Definition.second == CurrentCenter; });
-		if (it != OrbitDefintions.end())
+		if (it != OrbitDefinitions.end())
 		{
 			int countincrement = OrbitCounts[CurrentCenter];
-			CurrentCenter = OrbitDefintions.find((*it).first)->first;
+			CurrentCenter = OrbitDefinitions.find((*it).first)->first;
 			OrbitCounts[CurrentCenter] = countincrement +1;
-			OrbitDefintions.erase(CurrentCenter);
+			OrbitDefinitions.erase(CurrentCenter);
 			SoFarInTheChain.push_back(CurrentCenter);
 		}
 		else
@@ -83,4 +81,5 @@ void Day_06(ifstream& InputFile)
 	cout << "The total count of orbits in this system is: " << TotalOrbitalCount << "!\n";
 // Part 1: 273985
 	cout << "The total count of orbits between you and Santa is: " << DistanceYouToSanta << "!\n";
+// Part 2: 460
 }
