@@ -53,4 +53,6 @@ void Day_06(ifstream& InputFile)
 	int TotalOrbitalCount = accumulate(OrbitCounts.begin(), OrbitCounts.end()
 		,0, [](int value,auto p) { return value + p.second; });
 
+	cout << "The total count of orbits in this system is: " << TotalOrbitalCount << "!\n";
+// Part 1: 273985
 }
