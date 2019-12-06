@@ -39,7 +39,7 @@ void Day_06(ifstream& InputFile)
 		{
 			int countincrement = OrbitCounts[CurrentCenter];
 			CurrentCenter = OrbitDefintions.find((*it).first)->first;
-			OrbitCounts[CurrentCenter] +=countincrement;
+			OrbitCounts[CurrentCenter] = countincrement +1;
 			OrbitDefintions.erase(CurrentCenter);
 			SoFarInTheChain.push_back(CurrentCenter);
 		}
