@@ -26,4 +26,7 @@ void Day_06(ifstream& InputFile)
 
 	}
 
+	auto it = find_if(OrbitDefintions.begin(), OrbitDefintions.end(),
+		[](auto Definition) {return Definition.second == "COM"; });
+
 }
