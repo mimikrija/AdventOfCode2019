@@ -29,4 +29,22 @@ void Day_06(ifstream& InputFile)
 	auto it = find_if(OrbitDefintions.begin(), OrbitDefintions.end(),
 		[](auto Definition) {return Definition.second == "COM"; });
 
+	// create chains:
+	// while map.size != 0:
+	// ?  chain = com initialize
+	//
+	// current = the one that does not exist in values, only in keys
+	//......... chain.push_back(OrbitDefinitions[current])
+	// .........erase current entry from map
+	// if current not found in map, create new chain
+	// new chain is initialized to whatever exists in previous chains until current
+	// after initialization same loop as above...
+
+	// then, count stuff
+	// for (auto chain : Chains )
+	// for each key:
+	// orbits += distance[key,COM] - or easier, just the index of the vector
+	
+
+
 }
