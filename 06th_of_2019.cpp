@@ -20,9 +20,9 @@ void Day_06(ifstream& InputFile)
 	for (auto OneOrbit : ListOfInputs)
 	{
 		int pos_separator = OneOrbit.find(')');
-		string Center = OneOrbit.substr(0, pos_separator);
+		string CenterOfRotation = OneOrbit.substr(0, pos_separator);
 		string Planet = OneOrbit.substr(pos_separator+1);
-		OrbitDefintions[Center] = Planet;
+		OrbitDefintions[Planet] = CenterOfRotation;
 
 	}
 
