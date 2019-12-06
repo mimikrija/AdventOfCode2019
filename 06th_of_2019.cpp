@@ -27,25 +27,28 @@ void Day_06(ifstream& InputFile)
 		OrbitCounts[Planet] = 0;
 	}
 
-	auto it = find_if(OrbitDefintions.begin(), OrbitDefintions.end(),
-		[](auto Definition) {return Definition.second == "COM"; });
 
-	// create chains:
-	// while map.size != 0:
-	// ?  chain = com initialize
-	//
-	// current = the one that does not exist in values, only in keys
-	//......... chain.push_back(OrbitDefinitions[current])
-	// .........erase current entry from map
-	// if current not found in map, create new chain
-	// new chain is initialized to whatever exists in previous chains until current
-	// after initialization same loop as above...
-
-	// then, count stuff
-	// for (auto chain : Chains )
-	// for each key:
-	// orbits += distance[key,COM] - or easier, just the index of the vector
 	
+	string CurrentCenter = "COM";
+	vector<string> SoFarInTheChain = { CurrentCenter };
+	while (OrbitDefintions.size() != 0)
+	{
+		auto it = find_if(OrbitDefintions.begin(), OrbitDefintions.end(),
+		[CurrentCenter](auto Definition) {return Definition.second == CurrentCenter; });
+		if (it != OrbitDefintions.end())
+		{
+			int countincrement = OrbitCounts[CurrentCenter];
+			CurrentCenter = OrbitDefintions.find((*it).first)->first;
+			OrbitCounts[CurrentCenter] +=countincrement;
+			OrbitDefintions.erase(CurrentCenter);
+			SoFarInTheChain.push_back(CurrentCenter);
+		}
+		else
+		{
+			auto test = find(SoFarInTheChain.rbegin(),SoFarInTheChain.rend(), CurrentCenter);
+			CurrentCenter = *(test+1);
+		}
+	}
 
 
 }
