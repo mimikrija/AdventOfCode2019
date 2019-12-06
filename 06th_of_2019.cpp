@@ -15,6 +15,7 @@ using namespace std;
 void Day_06(ifstream& InputFile)
 {
 	map <string, string> OrbitDefintions;
+	map <string, int> OrbitCounts;
 	// parse input
 	vector<string> ListOfInputs{ istream_iterator<string>{InputFile},{} };
 	for (auto OneOrbit : ListOfInputs)
@@ -23,7 +24,7 @@ void Day_06(ifstream& InputFile)
 		string CenterOfRotation = OneOrbit.substr(0, pos_separator);
 		string Planet = OneOrbit.substr(pos_separator+1);
 		OrbitDefintions[Planet] = CenterOfRotation;
-
+		OrbitCounts[Planet] = 0;
 	}
 
 	auto it = find_if(OrbitDefintions.begin(), OrbitDefintions.end(),
