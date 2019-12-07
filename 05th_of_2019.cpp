@@ -54,7 +54,7 @@ int NumberOfParameters(int code)
 	}
 }
 
-int GetResult(int code, int first = 0, int second = 0)
+int GetResult(int code, int first, int second)
 {
 	switch (code)
 	{
