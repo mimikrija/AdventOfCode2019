@@ -42,9 +42,9 @@ int main()
 	case 6:
 		Day_06(InputFile);
 		break;
-	//case 7:
-	//	Day_07(InputFile);
-	//	break;
+	case 7:
+		Day_07(InputFile);
+		break;
 	//case 8:
 	//	Day_08(InputFile);
 	//	break;
