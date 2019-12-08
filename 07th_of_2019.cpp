@@ -28,7 +28,7 @@ int OptCode(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &pos,
 	// amplifier is finished or not (hit code 99)
 	int Output = 0;
 	
-
+	bool PhaseInput = true;
 	//int pos = continuefrom;
 
 	
@@ -86,6 +86,8 @@ int OptCode(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &pos,
 		case 3:
 			WritePosition = FirstParameter;
 			OptionalInput >= 0 ? result = OptionalInput : result = DefaultInput;
+			if (PhaseInput) PhaseInput = false;
+			else result = DefaultInput;
 			pos += ParametersInCommand + 1;
 			break;
 
