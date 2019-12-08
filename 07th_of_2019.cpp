@@ -144,45 +144,47 @@ void Day_07(ifstream& InputFile)
 	
 	vector<int> CleanCode = CodeList;
 	vector<int> AllResults;
-	vector<int> AmplifierInputs = { 9,7,8,5,6 };
-	vector<vector<int>> AmplifierOutputs(5);
-	vector<vector<int>> AmplifierPrograms{ 5,CodeList };
-	vector<int> ContinueFrom(5);
+	vector<int> AmplifierInputs = { 5,6,7,8,9 };
 
-	bool InitialRun = true;
-	bool IsFinished = false;
-	int i = 0;
-	int Input = 0; // this is the initial input for A
-	int Output;
-	while (true)
+	while (next_permutation(AmplifierInputs.begin(), AmplifierInputs.end()))
 	{
-		if (i == 0 && InitialRun) Input = 0;
-		else
+		vector<vector<int>> AmplifierOutputs(5);
+		vector<vector<int>> AmplifierPrograms{ 5,CodeList };
+		vector<int> ContinueFrom(5);
+
+		bool InitialRun = true;
+		bool IsFinished = false;
+		int i = 0;
+		int Input = 0; // this is the initial input for A
+		int Output;
+		while (true)
 		{
-			i != 0 ? Input = (AmplifierOutputs.at(i - 1)).back() : Input = (AmplifierOutputs.at(4)).back();
+			if (i == 0 && InitialRun) Input = 0;
+			else
+			{
+				i != 0 ? Input = (AmplifierOutputs.at(i - 1)).back() : Input = (AmplifierOutputs.at(4)).back();
+			}
+			if (InitialRun) // call with extra parameter as input
+			{
+				Output = OptCode(AmplifierPrograms.at(i), Input, IsFinished, ContinueFrom.at(i), AmplifierInputs.at(i));
+				if (i == 4) InitialRun = false;
+			}
+			else // call with default parameters
+			{
+				Output = OptCode(AmplifierPrograms.at(i), Input, IsFinished, ContinueFrom.at(i));
+			}
+			if (!IsFinished) AmplifierOutputs.at(i).push_back(Output);
+			if (i != 4) IsFinished = false;
+			if (IsFinished) break;
+
+			i == 4 ? i = 0 : i++;
 		}
-		if (InitialRun) // call with extra parameter as input
-		{
-			Output = OptCode(AmplifierPrograms.at(i), Input, IsFinished, ContinueFrom.at(i),AmplifierInputs.at(i));
-			if (i==4) InitialRun = false;
-		}
-		else // call with default parameters
-		{
-			Output = OptCode(AmplifierPrograms.at(i), Input, IsFinished,ContinueFrom.at(i));
-		}
-		if (!IsFinished) AmplifierOutputs.at(i).push_back(Output);
-		if (i != 4 ) IsFinished = false;
-		if (IsFinished) break;
-		
-		i == 4 ? i = 0 : i++;
+		AllResults.push_back(*max_element(AmplifierOutputs.at(4).begin(), AmplifierOutputs.at(4).end()));
+
 
 		
 	}
-		//AllResults.push_back(LastOutput);
-	
-	int test = accumulate(AmplifierOutputs.at(4).begin(), AmplifierOutputs.at(4).end(), 0);
-
-	cout << "Part 2 solution is " << *max_element(AmplifierOutputs.at(4).begin(),AmplifierOutputs.at(4).end()) << "!\n";
-
+	cout << "Part 2 solution is " << *max_element(AllResults.begin(), AllResults.end()) << "!\n";
 	// Part 1: 65464
+	// Part 2: 1518124
 }
