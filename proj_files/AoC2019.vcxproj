@@ -131,6 +131,7 @@
     <ClCompile Include="..\05th_of_2019.cpp" />
     <ClCompile Include="..\06th_of_2019.cpp" />
     <ClCompile Include="..\07th_of_2019.cpp" />
+    <ClCompile Include="..\08th_of_2019.cpp" />
     <ClCompile Include="..\AoC2019.cpp" />
   </ItemGroup>
   <ItemGroup>
