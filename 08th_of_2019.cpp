@@ -35,5 +35,31 @@ void Day_08(ifstream& InputFile)
 	int counttwos = count((Layers.at(TheLayer)).begin(), (Layers.at(TheLayer)).end(),'2');
 	
 	cout << "Part one solution is: " << countones * counttwos << "!\n";
-	// 1524 too low
+	// Part 1: 2064
+	vector<vector<int>> VisibilityMatrix;
+	for (int Pixel = 0; Pixel < 25 * 6; Pixel++)
+	{
+		vector<int> VisibilityStack = {};
+		for (auto Layer : Layers)
+		{
+			VisibilityStack.push_back(int(Layer.at(Pixel)-'0'));
+		}
+		VisibilityMatrix.push_back(VisibilityStack);
+	}
+
+	int counter = 1;
+	for (auto VisibilityStack : VisibilityMatrix)
+	{
+		auto VisiblePixel = find_if(VisibilityStack.begin(), VisibilityStack.end(), [](int P) {return P != 2; });
+		if (*VisiblePixel == 1) cout << "X";
+		else cout << " ";
+		if (counter / 25 != 0)
+		{
+			cout << "\n";
+			counter = 1;
+		}
+		else counter++;
+	}
+	// Part 2: KAUZA
+
 }
