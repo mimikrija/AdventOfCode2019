@@ -188,12 +188,12 @@ void Day_09(ifstream& InputFile)
 	}
 	
 	
-	int Input = 0; // initial input;
+	int Input = 1; // initial input;
 	bool InitialRun = false;
 	bool IsFinished = false;
 	int ProgramPosition = 0;
 	
-	//OptCode09(Program, Input, IsFinished, ProgramPosition);
+	OptCode09(Program, Input, IsFinished, ProgramPosition);
 
 	
 
