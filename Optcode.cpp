@@ -38,6 +38,8 @@ int NumberOfParameters(int code)
 
 	case 5: case 6:
 		return 2;
+	case 9:
+		return 1;
 	}
 }
 
@@ -57,6 +59,8 @@ int GetResult(int code, int first, int second)
 	case 8:
 		if (first == second) return 1;
 		else return 0;
+	case 9:
+		return first;
 	default:
 		return 0;
 	}

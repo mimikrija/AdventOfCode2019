@@ -137,12 +137,16 @@ void OptCode09(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &p
 			FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
 			break;
 
+		case 9:
+			RelativeBase += FirstParameter;
+			pos += ParametersInCommand + 1;
+			break;
 		default:
 			break;
 		}
 
 		// exclude codes which do not write
-		if (!(code == 4 || code == 5 || code == 6))
+		if (!(code == 4 || code == 5 || code == 6 || code == 9))
 			Program.at(WritePosition) = result;
 
 		if (code == 4) cout << "Current output: " << Output;
