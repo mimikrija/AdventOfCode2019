@@ -47,7 +47,7 @@ void OptCode09(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &p
 
 		int ParametersInCommand = NumberOfParameters(code);
 		int PositionModeFirst = GetFirstParameterMode(Program.at(pos));
-		bool PositionModeSecond, PositionModeThird;
+		int PositionModeSecond, PositionModeThird;
 		int FirstParameter, SecondParameter, ThirdParameter;
 		int WritePosition = 0;
 
@@ -78,16 +78,16 @@ void OptCode09(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &p
 			switch (PositionModeSecond)
 			{
 			case 0: // position mode
-				if (Program.at(pos + 1) >= Program.size()) Program.resize(Program.at(pos + 1) + 1);
-				SecondParameter = Program.at(Program.at(pos + 1));
+				if (Program.at(pos + 2) >= Program.size()) Program.resize(Program.at(pos + 2) + 1);
+				SecondParameter = Program.at(Program.at(pos + 2));
 				break;
 			case 1: // immediate mode
-				if (pos + 1 >= Program.size()) Program.resize(pos + 2);
-				SecondParameter = Program.at(pos + 1);
+				if (pos + 2 >= Program.size()) Program.resize(pos + 3);
+				SecondParameter = Program.at(pos + 2);
 				break;
 			case 2: // relative mode
-				if (Program.at(pos + 1 + RelativeBase) >= Program.size()) Program.resize(Program.at(pos + 1 + RelativeBase) + 1);
-				SecondParameter = Program.at(Program.at(pos + 1 + RelativeBase));
+				if (Program.at(pos + 2 + RelativeBase) >= Program.size()) Program.resize(Program.at(pos + 2 + RelativeBase) + 1);
+				SecondParameter = Program.at(Program.at(pos + 2 + RelativeBase));
 				break;
 			default:
 				break;
@@ -96,19 +96,19 @@ void OptCode09(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &p
 		if (ParametersInCommand >= 3)
 		{
 			PositionModeThird = GetThirdParameterMode(Program.at(pos));
-			switch (PositionModeFirst)
+			switch (PositionModeThird)
 			{
 			case 0: // position mode
 				if (Program.at(pos + 1) >= Program.size()) Program.resize(Program.at(pos + 1) + 1);
-				ThirdParameter = Program.at(Program.at(pos + 1));
+				ThirdParameter = Program.at(Program.at(pos + 3));
 				break;
 			case 1: // immediate mode
-				if (pos + 1 >= Program.size()) Program.resize(pos + 2);
-				ThirdParameter = Program.at(pos + 1);
+				if (pos + 3 >= Program.size()) Program.resize(pos + 4);
+				ThirdParameter = Program.at(pos + 3);
 				break;
 			case 2: // relative mode
-				if (Program.at(pos + 1 + RelativeBase) >= Program.size()) Program.resize(Program.at(pos + 1 + RelativeBase) + 1);
-				ThirdParameter = Program.at(Program.at(pos + 1 + RelativeBase));
+				if (Program.at(pos + 3 + RelativeBase) >= Program.size()) Program.resize(Program.at(pos + 3 + RelativeBase) + 1);
+				ThirdParameter = Program.at(Program.at(pos + 3 + RelativeBase));
 				break;
 			default:
 				break;
