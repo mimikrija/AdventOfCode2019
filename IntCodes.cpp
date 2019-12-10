@@ -27,26 +27,6 @@ vector<int> CodesAndModes(int BigCode)
 	return CodesAndModes;
 }
 
-int GetFirstParameterMode(int BigCode)
-{
-	//  always use immediate mode for code 3!
-	if (GetCode(BigCode) == 3) return 1;
-	return (BigCode / 100) % 10;
-}
-
-int GetSecondParameterMode(int BigCode)
-{
-	return (BigCode / 1000) % 10;
-}
-
-int GetThirdParameterMode(int BigCode)
-{
-	//  always use immediate mode for codes 1, 2, 7, 8!
-	if (GetCode(BigCode) == 1 || GetCode(BigCode) == 2
-		|| GetCode(BigCode) == 7 || GetCode(BigCode) == 8) return 1;
-	return (BigCode / 10000) % 10;
-}
-
 int NumberOfParameters(int code)
 {
 	switch (code)
@@ -128,36 +108,35 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 		}
 
 		int ParametersInCommand = NumberOfParameters(code);
-		bool PositionModeFirst = !GetFirstParameterMode(Program.at(pos));
-		bool PositionModeSecond, PositionModeThird;
-		int FirstParameter, SecondParameter, ThirdParameter;
-		int WritePosition = 0;
 
-		// default
-		if (ParametersInCommand >= 1)
-		{
-			PositionModeFirst ?
-				FirstParameter = Program.at(Program.at(pos + 1))
-				:
-				FirstParameter = Program.at(pos + 1);
-		}
-		if (ParametersInCommand >= 2)
-		{
-			PositionModeSecond = !GetSecondParameterMode(Program.at(pos));
-			PositionModeSecond ?
-				SecondParameter = Program.at(Program.at(pos + 2))
-				:
-				SecondParameter = Program.at(pos + 2);
-		}
-		if (ParametersInCommand >= 3)
-		{
-			PositionModeThird = !GetThirdParameterMode(Program.at(pos));
-			PositionModeThird ?
-				ThirdParameter = Program.at(Program.at(pos + 3))
-				:
-				ThirdParameter = Program.at(pos + 3);
-		}
+		// get parameter indices
 
+		vector<int> ParameterIndices(ParametersInCommand);
+		auto it = CodeAndMode.begin() + 1;
+		for (auto& p : ParameterIndices)
+		{
+			int mode = *it;
+			int rel = it - CodeAndMode.begin();
+			it++;
+			switch (mode)
+			{
+			case 0: // position mode
+				p = Program.at(pos + rel);
+				break;
+			case 1: // imediate mode
+				p = pos + rel;
+				break;
+			//case 2: // relative mode
+				//p =
+			default:
+				break;
+			}
+		}
+		int PositionFirstParameter, PositionSecondParameter, PositionThirdParameter;
+		if (ParametersInCommand >= 1) PositionFirstParameter = ParameterIndices.at(0);
+		if (ParametersInCommand >= 2) PositionSecondParameter = ParameterIndices.at(1);
+		if (ParametersInCommand >= 3) PositionThirdParameter = ParameterIndices.at(2);
+		int first, second, third, WritePosition;
 
 		switch (code)
 		{
