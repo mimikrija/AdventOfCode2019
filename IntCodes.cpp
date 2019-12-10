@@ -62,7 +62,7 @@ int NumberOfParameters(int code)
 	}
 }
 
-int GetResult(int code, int first, int second)
+int GetResult(int code, int first, int second, int third)
 {
 	switch (code)
 	{
@@ -72,6 +72,14 @@ int GetResult(int code, int first, int second)
 		return first*second;
 	case 4:
 		return first;
+	case 5: //			FirstParameter != 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
+		if (first != 0) return second;
+		else return third;
+		break;
+	case 6:			//FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
+		if (first == 0) return second;
+		else return third;
+		break;
 	case 7:
 		if (first < second) return 1;
 		else return 0;
@@ -154,13 +162,15 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 		switch (code)
 		{
 		case 1: case 2: case 7: case 8:
-			result = GetResult(code, FirstParameter, SecondParameter);
-			WritePosition = ThirdParameter;
+			first = Program.at(PositionFirstParameter);
+			second = Program.at(PositionSecondParameter);
+			result = GetResult(code, first, second);
+			WritePosition = PositionThirdParameter;
 			pos += ParametersInCommand + 1;
 			break;
 
 		case 3:
-			WritePosition = FirstParameter;
+			WritePosition = PositionFirstParameter;
 			OptionalInput >= 0 ? result = OptionalInput : result = DefaultInput;
 			if (PhaseInput) PhaseInput = false;
 			else result = DefaultInput;
@@ -168,18 +178,26 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 			break;
 
 		case 4:
-			result = FirstParameter;
+			result = Program.at(PositionFirstParameter);
 			//cout << "Output produced " << result << "\n";
 			pos += ParametersInCommand + 1;
 			Output = result;
 			break;
 
 		case 5:
-			FirstParameter != 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
+			first = Program.at(PositionFirstParameter);
+			second = Program.at(PositionSecondParameter);
+			third = pos + ParametersInCommand + 1;
+			pos = GetResult(code, first, second, third);
+			//FirstParameter != 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
 			break;
 
 		case 6:
-			FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
+			first = Program.at(PositionFirstParameter);
+			second = Program.at(PositionSecondParameter);
+			third = pos + ParametersInCommand + 1;
+			pos = GetResult(code, first, second, third);
+			//FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
 			break;
 
 		default:
