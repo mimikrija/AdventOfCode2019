@@ -76,20 +76,24 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 	// Program is taken by reference because it is changed and needs to remain that way
 	// even after this runs
 
-	// Default Input is (in this case) the output of the previous amplifier, but it can
-	// be used for any default input
+	// Default Input depends on the day:
 
-	// OptionalInput is used only when provided - in this case only in the initial run
-	// when we provide the phase code to each amplifier.
-	// in this case, the phase codes are 0-9 - so -1 is a safe choice for 
-	// checking whether to use this input or not
+	// day 02 - no input modes present, Input is a dummy
+	// day 05 - only one input per run, Input is defined in 05th_of_2019.cpp
+	// day 07 - two possible inputs: Input is the one that is always taken (from
+	//			previous amplifier). OptionalInput is the phase setting of the amplifier.
+	//			OptionalInput goes together with InitialRun boolean which governs whether
+	//			to use it or not.
+	bool PhaseInput = true; // this makes sense only if OptionalInput is present (day 07)
 
-	// IsFinished, also by reference serves to communicate to the main program whether that
-	// amplifier is finished or not (hit code 99)
+	// IsFinished, taken by reference  as it serves to communicate to the main program
+	// whether that program is finished or not (hit code 99)
+	
+	// pos	position in the program. In days 02 and 05 not used, so we provide 0,
+	//		otherwise this is provided as reference so that we can continue where we left
+	//		off last time a program was run (day 07)
+
 	int Output = 0;
-
-	bool PhaseInput = true;
-	//int pos = continuefrom;
 
 
 	while (pos < Program.size())
@@ -100,17 +104,16 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 		
 		if (code == 99)
 		{
-			pos++; // useless now
+			pos++; // useless, but for the sake of completeness.
 			IsFinished = true;
-			return 0; //not that it matters?
-					  // ugh I have to return something from this function, but I take care that
-					  // the last (this) output is ignored when calling this function.
+			return 0;	//not that it matters?
+						// ugh I have to return something from this function, but I take care that
+						// the last (this) output is ignored when calling this function.
 		}
 
 		int ParametersInCommand = NumberOfParameters(code);
 
 		// get parameter indices
-
 		vector<int> ParameterIndices(ParametersInCommand);
 		auto it = CodeAndMode.begin() + 1;
 		for (auto& p : ParameterIndices)
@@ -158,7 +161,6 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 
 		case 4:
 			result = Program.at(PositionFirstParameter);
-			//cout << "Output produced " << result << "\n";
 			pos += ParametersInCommand + 1;
 			Output = result;
 			break;
@@ -168,7 +170,6 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 			second = Program.at(PositionSecondParameter);
 			third = pos + ParametersInCommand + 1;
 			pos = GetResult(code, first, second, third);
-			//FirstParameter != 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
 			break;
 
 		case 6:
@@ -176,21 +177,17 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 			second = Program.at(PositionSecondParameter);
 			third = pos + ParametersInCommand + 1;
 			pos = GetResult(code, first, second, third);
-			//FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
 			break;
 
 		default:
 			break;
 		}
 
-		// exclude codes which do not write
+		// write for modes which support writing
 		if (!(code == 4 || code == 5 || code == 6))
 			Program.at(WritePosition) = result;
 
+		// return if output code is called
 		if (code == 4) return Output;
-
-		// once we have output proceed to the next amplifier
 	}
-
-
 }
