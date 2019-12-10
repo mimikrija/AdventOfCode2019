@@ -10,6 +10,23 @@ int GetCode(int BigCode)
 	return BigCode % 1'000;
 }
 
+vector<int> CodesAndModes(int BigCode)
+{
+	// code and modes would be more precise
+	// but this rhymes.
+	vector<int> CodesAndModes(4,0);
+	// 0-th entry is the code
+	CodesAndModes.at(0) = GetCode(BigCode);
+	// 1-th entry is the first parameter.. etc.
+	CodesAndModes.at(1) = (BigCode / 100) % 10;
+	CodesAndModes.at(2) = (BigCode / 1000) % 10;
+	CodesAndModes.at(3) = (BigCode / 10000) % 10;
+	// yes, this could have been a loop but it is
+	// actually more clear like this!
+
+	return CodesAndModes;
+}
+
 int GetFirstParameterMode(int BigCode)
 {
 	//  always use immediate mode for code 3!
@@ -90,7 +107,9 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 	while (pos < Program.size())
 	{
 		int result;
-		int code = GetCode(Program.at(pos));
+		vector<int> CodeAndMode = CodesAndModes(Program.at(pos));
+		int code = CodeAndMode.at(0);
+		
 		if (code == 99)
 		{
 			pos++; // useless now
