@@ -1,5 +1,4 @@
 #include <fstream>
-#include <vector>
 #pragma once
 
 void Day_01(std::ifstream& InputFile);
@@ -11,12 +10,4 @@ void Day_06(std::ifstream& InputFile);
 void Day_07(std::ifstream& InputFile);
 //void Day_08(std::ifstream& InputFile);
 
-// INTCOMstuff
 
-int GetCode(int BigCode);
-int GetFirstParameterMode(int BigCode);
-int GetSecondParameterMode(int BigCode);
-int GetThirdParameterMode(int BigCode);
-int NumberOfParameters(int code);
-int GetResult(int code, int first = 0, int second = 0);
-int OptCode(std::vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, int OptionalInput = -1);
