@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int OptCode(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &pos,int OptionalInput = -1)
+int OptCode(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &pos,int OptionalInput)
 {
 	// Program is taken by reference because it is changed and needs to remain that way
 	// even after this runs
@@ -40,7 +40,9 @@ int OptCode(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &pos,
 		{
 			pos++; // useless now
 			IsFinished = true;
-			return Output; //not that it matters?
+			return 0; //not that it matters?
+			// ugh I have to return something from this function, but I take care that
+			// the last (this) output is ignored when calling this function.
 		}
 
 		int ParametersInCommand = NumberOfParameters(code);
