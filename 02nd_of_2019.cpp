@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <numeric>
 #include "DayHeaders.h"
+#include "IntCodes.h"
 
 
 using namespace std;
@@ -29,37 +30,25 @@ void Day_02(ifstream& InputFile)
 			CodeList.push_back(stoi(value));
 		}
 	}
-
-	CleanCodeList = CodeList;
-	CodeList.at(1) = 12;
-	CodeList.at(2) = 2;
-
-
-	for (int pos = 0; pos < CodeList.size(); pos++)
+	
+	// part 1: initialize the program with values from the puzzle
+	vector<int> Program = CodeList; // clean copy of the program
+	Program.at(1) = 12;
+	Program.at(2) = 2;
+	int UserInput = 0; // not necessary in day 2
+	int ContinueFrom = 0; // position to continue running the program from (zero for day 5)
+	bool IsFinished = false; // indicator that the program has hit code 99
+	
+	while (!IsFinished)
 	{
-		int result;
-		int code = CodeList.at(pos * 4);
-		if (code == 99) break;
-		int inputpos = CodeList.at(pos * 4 + 3);
-		int firstarg = CodeList.at(pos * 4 + 1);
-		int secondarg = CodeList.at(pos * 4 + 2);
-		switch (code)
-		{
-		case 1:
-			CodeList.at(inputpos) = CodeList.at(firstarg) + CodeList.at(secondarg);
-			break;
-		case 2:
-			CodeList.at(inputpos) = CodeList.at(firstarg) * CodeList.at(secondarg);
-			break;
-		default:
-			break;
-		}
+		int Output = OptCode(Program, UserInput, IsFinished, ContinueFrom);
 	}
+	cout << "Part one solution is: " << Program.at(0) << "!\n";
 
-	cout << "Part one solution is: " << CodeList.at(0) << "!\n";
 
+	
 	// part 2
-
+	CleanCodeList = CodeList;
 	int noun, verb;
 	int nounsize = CleanCodeList.size();
 	vector<int> Nouns(nounsize);
