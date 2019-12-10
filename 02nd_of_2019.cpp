@@ -45,60 +45,30 @@ void Day_02(ifstream& InputFile)
 	}
 	cout << "Part one solution is: " << Program.at(0) << "!\n";
 
-
-	
-	// part 2
-	CleanCodeList = CodeList;
+	// part 2: test various noun-verb combinations
 	int noun, verb;
-	int nounsize = CleanCodeList.size();
-	vector<int> Nouns(nounsize);
-	iota(Nouns.begin(), Nouns.end(), 0);
-	vector<int> Verbs;
-	Verbs = Nouns;
-	vector<pair<int, int>> Combinations;
-	pair<int, int> OneCombination;
-	for_each(Nouns.begin(), Nouns.end(),
-		[Verbs, &OneCombination, &Combinations](int ANoun)
+	for (noun = 99; noun >= 0; noun--)
 	{
-		for_each(Verbs.begin(), Verbs.end(),
-			[ANoun,&OneCombination,&Combinations](int AVerb)
-		{OneCombination = make_pair(ANoun, AVerb);
-		Combinations.push_back(OneCombination); }
-		);
-		
-	});
-
-	for (auto NounAndVerb : Combinations)
-	{
-		CodeList = CleanCodeList;
-		noun = NounAndVerb.first;
-		verb = NounAndVerb.second;
-		CodeList.at(1) = noun;
-		CodeList.at(2) = verb;
-		for (int pos = 0; pos < CodeList.size(); pos++)
+		for (verb = 99; verb >= 0; verb--)
 		{
-			int result;
-			int code = CodeList.at(pos * 4);
-			if (code == 99) break;
-			int inputpos = CodeList.at(pos * 4 + 3);
-			int firstarg = CodeList.at(pos * 4 + 1);
-			int secondarg = CodeList.at(pos * 4 + 2);
-			switch (code)
-			{
-			case 1:
-				CodeList.at(inputpos) = CodeList.at(firstarg) + CodeList.at(secondarg);
-				break;
-			case 2:
-				CodeList.at(inputpos) = CodeList.at(firstarg) * CodeList.at(secondarg);
-				break;
-			default:
-				break;
-			}
-		}
-		if (CodeList.at(0) == 19690720) break;
-	}
+			Program = CodeList; // clean copy of the program
+			Program.at(1) = noun;
+			Program.at(2) = verb;
+			int UserInput = 0; // not necessary in day 2
+			int ContinueFrom = 0; // position to continue running the program from
+			bool IsFinished = false; // indicator that the program has hit code 99
 
+			while (!IsFinished)
+			{
+				int Output = OptCode(Program, UserInput, IsFinished, ContinueFrom);
+			}
+			if (Program.at(0) == 19690720) break; // very elegant way of breaking out
+		}
+		if (Program.at(0) == 19690720) break; //	 of a quadratic loop.
+	}
+	
 	cout << "Part two solution is: " << 100 * noun + verb << "!\n";
+	
 	// Part one solution is : 3516593!
 	// Part two solution is : 7749!
 }
