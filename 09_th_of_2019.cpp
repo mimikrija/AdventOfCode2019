@@ -57,16 +57,16 @@ void OptCode09(vector<long long int>& Program, int DefaultInput,  bool &IsFinish
 			switch (PositionModeFirst)
 			{
 			case 0: // position mode
-				if (Program.at(pos + 1) >= Program.size()) Program.resize(Program.at(pos + 1) + 1);
 				FirstParameter = Program.at(Program.at(pos + 1));
 				break;
 			case 1: // immediate mode
-				if (pos + 1 >= Program.size()) Program.resize(pos + 2);
 				FirstParameter = Program.at(pos + 1);
 				break;
 			case 2: // relative mode
-				if (Program.at(pos + 1 + RelativeBase) >= Program.size()) Program.resize(Program.at(pos + 1 + RelativeBase)+1);
-				FirstParameter = Program.at(Program.at(pos + 1 + RelativeBase));
+				FirstParameter = Program.at(Program.at(pos + 1) + RelativeBase);
+				WritePosition = Program.at(pos + 1) + RelativeBase;
+				cout << "code is: " << code << "\n";
+				cout << "First parameter: " << FirstParameter << " ";
 				break;
 			default:
 				break;
@@ -78,16 +78,14 @@ void OptCode09(vector<long long int>& Program, int DefaultInput,  bool &IsFinish
 			switch (PositionModeSecond)
 			{
 			case 0: // position mode
-				if (Program.at(pos + 2) >= Program.size()) Program.resize(Program.at(pos + 2) + 1);
 				SecondParameter = Program.at(Program.at(pos + 2));
 				break;
 			case 1: // immediate mode
-				if (pos + 2 >= Program.size()) Program.resize(pos + 3);
 				SecondParameter = Program.at(pos + 2);
 				break;
 			case 2: // relative mode
-				if (Program.at(pos + 2 + RelativeBase) >= Program.size()) Program.resize(Program.at(pos + 2 + RelativeBase) + 1);
-				SecondParameter = Program.at(Program.at(pos + 2 + RelativeBase));
+				SecondParameter = Program.at(Program.at(pos + 2) + RelativeBase);
+				cout << "Second parameter: " << SecondParameter << " ";
 				break;
 			default:
 				break;
@@ -99,16 +97,14 @@ void OptCode09(vector<long long int>& Program, int DefaultInput,  bool &IsFinish
 			switch (PositionModeThird)
 			{
 			case 0: // position mode
-				if (Program.at(pos + 1) >= Program.size()) Program.resize(Program.at(pos + 1) + 1);
-				ThirdParameter = Program.at(Program.at(pos + 3));
-				break;
-			case 1: // immediate mode
-				if (pos + 3 >= Program.size()) Program.resize(pos + 4);
 				ThirdParameter = Program.at(pos + 3);
 				break;
+			case 1: // immediate mode
+				ThirdParameter = pos + 3;
+				break;
 			case 2: // relative mode
-				if (Program.at(pos + 3 + RelativeBase) >= Program.size()) Program.resize(Program.at(pos + 3 + RelativeBase) + 1);
-				ThirdParameter = Program.at(Program.at(pos + 3 + RelativeBase));
+				ThirdParameter = Program.at(pos + 3) + RelativeBase;
+				cout << "Third(write) parameter " << ThirdParameter << "\n";
 				break;
 			default:
 				break;
