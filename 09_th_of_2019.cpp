@@ -9,9 +9,10 @@
 #include "DayHeaders.h"
 
 
+
 using namespace std;
 
-void OptCode09(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &pos,int OptionalInput = -1)
+void OptCode09(vector<long long int>& Program, int DefaultInput,  bool &IsFinished, int &pos,int OptionalInput = -1)
 {
 	// Program is taken by reference because it is changed and needs to remain that way
 	// even after this runs
@@ -26,17 +27,16 @@ void OptCode09(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &p
 
 	// IsFinished, also by reference serves to communicate to the main program whether that
 	// amplifier is finished or not (hit code 99)
-	int Output = 0;
+	long long int Output = 0;
 	int RelativeBase = 0;
 	
-	bool PhaseInput = true;
 	//int pos = continuefrom;
 	int code = 0;
 
 	
 	while ( code != 99)
 	{
-		int result;
+		long long int result;
 		int code = GetCode(Program.at(pos));
 		if (code == 99)
 		{
@@ -48,7 +48,7 @@ void OptCode09(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &p
 		int ParametersInCommand = NumberOfParameters(code);
 		int PositionModeFirst = GetFirstParameterMode(Program.at(pos));
 		int PositionModeSecond, PositionModeThird;
-		int FirstParameter, SecondParameter, ThirdParameter;
+		long long int FirstParameter, SecondParameter, ThirdParameter;
 		int WritePosition = 0;
 
 		// default
@@ -171,7 +171,7 @@ void OptCode09(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &p
 
 void Day_09(ifstream& InputFile)
 {
-	vector<int> Program;
+	vector<long long int> Program;
 
 	// read integers one by one
 	// fill solutions into a vector
@@ -186,6 +186,9 @@ void Day_09(ifstream& InputFile)
 			Program.push_back(stoi(value));
 		}
 	}
+
+
+	Program.resize(10000000);
 	
 	
 	int Input = 1; // initial input;

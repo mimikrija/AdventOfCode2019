@@ -43,7 +43,7 @@ int NumberOfParameters(int code)
 	}
 }
 
-int GetResult(int code, int first, int second)
+long long int GetResult(int code, long long int first, long long int second)
 {
 	switch (code)
 	{

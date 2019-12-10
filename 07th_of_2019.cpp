@@ -34,7 +34,7 @@ int OptCode(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &pos,
 	
 	while (pos < Program.size())
 	{
-		int result;
+		long int result;
 		int code = GetCode(Program.at(pos));
 		if (code == 99)
 		{
@@ -46,7 +46,7 @@ int OptCode(vector<int>& Program, int DefaultInput,  bool &IsFinished, int &pos,
 		int ParametersInCommand = NumberOfParameters(code);
 		bool PositionModeFirst = !GetFirstParameterMode(Program.at(pos));
 		bool PositionModeSecond, PositionModeThird;
-		int FirstParameter, SecondParameter, ThirdParameter;
+		long FirstParameter, SecondParameter, ThirdParameter;
 		int WritePosition = 0;
 
 		// default

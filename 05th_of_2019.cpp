@@ -14,7 +14,7 @@ using namespace std;
 
 void Day_05(ifstream& InputFile)
 {
-	vector<int> CodeList;
+	vector<long int> CodeList;
 
 	// read integers one by one
 	// fill solutions into a vector
@@ -33,11 +33,11 @@ void Day_05(ifstream& InputFile)
 
 	int pos = 0;
 	cout << "Give me the input: ";
-	int UserInput;//we provide that to the program
+	long int UserInput;//we provide that to the program
 	cin >> UserInput;
 	while ( pos < CodeList.size())
 	{
-		int result;
+		long result;
 		int code = GetCode(CodeList.at(pos));
 		if (code == 99)
 		{
@@ -48,7 +48,7 @@ void Day_05(ifstream& InputFile)
 		int ParametersInCommand = NumberOfParameters(code);
 		bool PositionModeFirst = !GetFirstParameterMode(CodeList.at(pos));
 		bool PositionModeSecond, PositionModeThird;
-		int FirstParameter, SecondParameter, ThirdParameter;
+		long FirstParameter, SecondParameter, ThirdParameter;
 		int WritePosition = 0;
 		
 		// default

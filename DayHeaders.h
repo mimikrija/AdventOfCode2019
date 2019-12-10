@@ -18,4 +18,4 @@ int GetFirstParameterMode(int BigCode);
 int GetSecondParameterMode(int BigCode);
 int GetThirdParameterMode(int BigCode);
 int NumberOfParameters(int code);
-int GetResult(int code, int first = 0, int second = 0);
+long long int GetResult(int code, long long int first = 0, long long int second = 0);
