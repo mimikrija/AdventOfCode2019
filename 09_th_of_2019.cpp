@@ -121,16 +121,13 @@ void OptCode09(vector<long long int>& Program, int DefaultInput,  bool &IsFinish
 			break;
 
 		case 3:
-			WritePosition = FirstParameter;
-			OptionalInput >= 0 ? result = OptionalInput : result = DefaultInput;
-			if (PhaseInput) PhaseInput = false;
-			else result = DefaultInput;
+			//WritePosition = FirstParameter;
+			result = DefaultInput;
 			pos += ParametersInCommand + 1;
 			break;
 
 		case 4:
 			result = FirstParameter;
-			//cout << "Output produced " << result << "\n";
 			pos += ParametersInCommand + 1;
 			Output = result;
 			break;
