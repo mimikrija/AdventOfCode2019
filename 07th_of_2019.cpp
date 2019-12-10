@@ -7,9 +7,14 @@
 #include <algorithm>
 #include <numeric>
 #include "DayHeaders.h"
+#include "IntCodes.h"
 
 
 using namespace std;
+
+
+
+
 
 void Day_07(ifstream& InputFile)
 {
@@ -28,91 +33,78 @@ void Day_07(ifstream& InputFile)
 			CodeList.push_back(stoi(value));
 		}
 	}
-
-
-	int pos = 0;
-	cout << "Give me the input: ";
-	int UserInput;//we provide that to the program
-	cin >> UserInput;
-	while ( pos < CodeList.size())
+	
+	vector<int> CleanCode = CodeList;
+	vector<int> AllResults;
+	vector<int> AmplifierInputs = {0, 1, 2, 3, 4};
+	while (next_permutation(AmplifierInputs.begin(), AmplifierInputs.end()))
 	{
-		int result;
-		int code = GetCode(CodeList.at(pos));
-		if (code == 99)
+		vector<int> AmplifierResults(5,0);
+		vector<vector<int>> AmplifierPrograms{ 5,CodeList };
+		vector<int> ContinueFrom(5, 0);
+		bool InitialRun = true;
+		bool IsFinished = false;
+		int i = 0;
+		int Input = 0; // this is the initial input for A
+		int Output;
+		for (i = 0; i < 5; i ++)
 		{
-			pos++;
-			break;
+			InitialRun = true;
+			Output = OptCode(AmplifierPrograms.at(i), Input, IsFinished, ContinueFrom.at(i), AmplifierInputs.at(i));
+			Input = Output;
+			AmplifierResults.at(i)= Output;
 		}
+		AllResults.push_back(AmplifierResults.at(4));
 
-		int ParametersInCommand = NumberOfParameters(code);
-		bool PositionModeFirst = !GetFirstParameterMode(CodeList.at(pos));
-		bool PositionModeSecond, PositionModeThird;
-		int FirstParameter, SecondParameter, ThirdParameter;
-		int WritePosition = 0;
-		
-		// default
-		if (ParametersInCommand >= 1)
-		{
-			PositionModeFirst ?
-				FirstParameter = CodeList.at(CodeList.at(pos + 1))
-				:
-				FirstParameter = CodeList.at(pos + 1);
-		}
-		if (ParametersInCommand >= 2)
-		{
-			PositionModeSecond = !GetSecondParameterMode(CodeList.at(pos));
-			PositionModeSecond ?
-				SecondParameter = CodeList.at(CodeList.at(pos + 2))
-				:
-				SecondParameter = CodeList.at(pos + 2);
-		}
-		if (ParametersInCommand >= 3)
-		{
-			PositionModeThird = !GetThirdParameterMode(CodeList.at(pos));
-			PositionModeThird ?
-				ThirdParameter = CodeList.at(CodeList.at(pos + 3))
-				:
-				ThirdParameter = CodeList.at(pos + 3);
-		}
-
-
-		switch (code)
-		{
-		case 1: case 2: case 7: case 8:
-			result = GetResult(code, FirstParameter, SecondParameter);
-			WritePosition = ThirdParameter;
-			pos += ParametersInCommand + 1;
-			break;
-
-		case 3:
-			WritePosition = FirstParameter;
-			result = UserInput;
-			pos += ParametersInCommand + 1;
-			break;
-
-		case 4:
-			result = FirstParameter;
-			cout << "Output produced " << result << "\n";
-			pos += ParametersInCommand + 1;
-			break;
-
-		case 5:
-			FirstParameter != 0 ? pos = SecondParameter : pos+= ParametersInCommand + 1;
-			break;
-
-		case 6:
-			FirstParameter == 0 ? pos = SecondParameter : pos += ParametersInCommand + 1;
-			break;
-
-		default:
-			break;
-		}
-
-		// exclude codes which do not write
-		if ( !( code == 4 || code ==5 || code ==6))
-			CodeList.at(WritePosition) = result;
-		
 	}
 
+	cout << "Part 1 solution is " << *max_element(AllResults.begin(), AllResults.end()) << "!\n";
 
+	
+
+
+	// part 2
+	AmplifierInputs = { 5,6,7,8,9 };
+	CodeList = CleanCode;
+	while (next_permutation(AmplifierInputs.begin(), AmplifierInputs.end()))
+	{
+		vector<vector<int>> AmplifierOutputs(5);
+		vector<vector<int>> AmplifierPrograms{ 5,CodeList };
+		vector<int> ContinueFrom(5);
+
+		bool InitialRun = true;
+		bool IsFinished = false;
+		int i = 0;
+		int Input = 0; // this is the initial input for A
+		int Output;
+		while (true)
+		{
+			if (i == 0 && InitialRun) Input = 0;
+			else
+			{
+				i != 0 ? Input = (AmplifierOutputs.at(i - 1)).back() : Input = (AmplifierOutputs.at(4)).back();
+			}
+			if (InitialRun) // call with extra parameter as input
+			{
+				Output = OptCode(AmplifierPrograms.at(i), Input, IsFinished, ContinueFrom.at(i), AmplifierInputs.at(i));
+				if (i == 4) InitialRun = false;
+			}
+			else // call with default parameters
+			{
+				Output = OptCode(AmplifierPrograms.at(i), Input, IsFinished, ContinueFrom.at(i));
+			}
+			if (!IsFinished) AmplifierOutputs.at(i).push_back(Output);
+			if (i != 4) IsFinished = false;
+			if (IsFinished) break;
+
+			i == 4 ? i = 0 : i++;
+		}
+		AllResults.push_back(*max_element(AmplifierOutputs.at(4).begin(), AmplifierOutputs.at(4).end()));
+
+
+		
+	}
+	cout << "Part 2 solution is " << *max_element(AllResults.begin(), AllResults.end()) << "!\n";
+	// Part 1: 65464
+	// Part 2: 1518124
 }
