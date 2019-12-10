@@ -8,8 +8,6 @@ int GetCode(int BigCode)
 
 int GetFirstParameterMode(int BigCode)
 {
-	//  always use immediate mode for code 3!
-	if (GetCode(BigCode) == 3) return 1;
 	return (BigCode / 100) % 10;
 }
 
@@ -20,9 +18,6 @@ int GetSecondParameterMode(int BigCode)
 
 int GetThirdParameterMode(int BigCode)
 {
-	//  always use immediate mode for codes 1, 2, 7, 8!
-	if (GetCode(BigCode) == 1 || GetCode(BigCode) == 2
-		|| GetCode(BigCode) == 7 || GetCode(BigCode) == 8) return 1;
 	return (BigCode / 10000) % 10;
 }
 
