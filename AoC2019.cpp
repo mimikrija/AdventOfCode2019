@@ -48,6 +48,9 @@ int main()
 	case 8:
 		Day_08(InputFile);
 		break;
+	case 9:
+		Day_09(InputFile);
+		break;
 	}
 
 	return 0;

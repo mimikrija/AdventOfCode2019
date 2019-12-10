@@ -9,5 +9,5 @@ void Day_05(std::ifstream& InputFile);
 void Day_06(std::ifstream& InputFile);
 void Day_07(std::ifstream& InputFile);
 void Day_08(std::ifstream& InputFile);
-
+void Day_09(std::ifstream& InputFile);
 

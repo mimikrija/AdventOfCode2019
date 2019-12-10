@@ -1,48 +1,9 @@
 #include "IntCodes.h"
+#include "BigIntCodes.h"
 
 using namespace std;
 
-int GetCode(int BigCode)
-{
-	if (BigCode < 100) return BigCode;
-	if (BigCode < 1000) return BigCode % 10;
-	if (BigCode < 10'000) return BigCode % 100;
-	return BigCode % 1'000;
-}
-
-vector<int> CodesAndModes(int BigCode)
-{
-	// code and modes would be more precise
-	// but this rhymes.
-	vector<int> CodesAndModes(4,0);
-	// 0-th entry is the code
-	CodesAndModes.at(0) = GetCode(BigCode);
-	// 1-th entry is the first parameter.. etc.
-	CodesAndModes.at(1) = (BigCode / 100) % 10;
-	CodesAndModes.at(2) = (BigCode / 1000) % 10;
-	CodesAndModes.at(3) = (BigCode / 10000) % 10;
-	// yes, this could have been a loop but it is
-	// actually more clear like this!
-
-	return CodesAndModes;
-}
-
-int NumberOfParameters(int code)
-{
-	switch (code)
-	{
-	case 1: case 2: case 7: case 8:
-		return 3;
-
-	case 3: case 4: case 9:
-		return 1;
-
-	case 5: case 6:
-		return 2;
-	}
-}
-
-int GetResult(int code, int first, int second, int third)
+int BigGetResult(int code, int first, int second, int third)
 {
 	switch (code)
 	{
@@ -71,7 +32,7 @@ int GetResult(int code, int first, int second, int third)
 	}
 }
 
-int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, int OptionalInput)
+int BigOptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, int OptionalInput)
 {
 	// Program is taken by reference because it is changed and needs to remain that way
 	// even after this runs
@@ -94,6 +55,7 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 	//		off last time a program was run (day 07)
 
 	int Output = 0;
+	int RelativeBase = 0;
 
 
 	while (pos < Program.size())
@@ -129,8 +91,8 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 			case 1: // imediate mode
 				p = pos + rel;
 				break;
-			//case 2: // relative mode
-				//p =
+			case 2: // relative mode
+				p = Program.at(pos + rel) + RelativeBase;
 			default:
 				break;
 			}
@@ -146,7 +108,7 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 		case 1: case 2: case 7: case 8:
 			first = Program.at(PositionFirstParameter);
 			second = Program.at(PositionSecondParameter);
-			result = GetResult(code, first, second);
+			result = BigGetResult(code, first, second);
 			WritePosition = PositionThirdParameter;
 			pos += ParametersInCommand + 1;
 			break;
@@ -169,15 +131,20 @@ int OptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, 
 			first = Program.at(PositionFirstParameter);
 			second = Program.at(PositionSecondParameter);
 			third = pos + ParametersInCommand + 1;
-			pos = GetResult(code, first, second, third);
+			pos = BigGetResult(code, first, second, third);
 			break;
 
 		case 6:
 			first = Program.at(PositionFirstParameter);
 			second = Program.at(PositionSecondParameter);
 			third = pos + ParametersInCommand + 1;
-			pos = GetResult(code, first, second, third);
+			pos = BigGetResult(code, first, second, third);
 			break;
+
+		case 9:
+			first = Program.at(PositionFirstParameter);
+			RelativeBase += first;
+			pos += ParametersInCommand + 1;
 
 		default:
 			break;
