@@ -146,6 +146,9 @@ void Day_07(ifstream& InputFile)
 	vector<int> AllResults;
 	vector<int> AmplifierInputs = { 5,6,7,8,9 };
 
+
+	// part 2
+	CodeList = CleanCode;
 	while (next_permutation(AmplifierInputs.begin(), AmplifierInputs.end()))
 	{
 		vector<vector<int>> AmplifierOutputs(5);
