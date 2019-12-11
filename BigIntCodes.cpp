@@ -151,7 +151,7 @@ int BigOptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &po
 		}
 
 		// write for modes which support writing
-		if (!(code == 4 || code == 5 || code == 6))
+		if (!(code == 4 || code == 5 || code == 6 || code == 9))
 			Program.at(WritePosition) = result;
 
 		// return if output code is called
