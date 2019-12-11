@@ -156,6 +156,6 @@ using namespace std;
 			Program.at(WritePosition) = result;
 
 		// return if output code is called
-		if (code == 4) std::cout << Output << "\n";
+		if (code == 4) return Output;
 	}
 }
