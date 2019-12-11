@@ -38,16 +38,21 @@ void Day_09(ifstream& InputFile)
 	cout << "User input is: " << UserInput << "...\nAnd this is Part 1 solution: \n";
 	vector< long long int> Program = CodeList; // clean copy of the program
 	Program.resize(1000000); // resize the program so it can go past its end
-	vector<int> AllResults = {}; // clean placeholder for results (not necessary in day 5)
 	int ContinueFrom = 0; // position to continue running the program from (zero for day 5)
 	bool IsFinished = false; // indicator that the program has hit code 99
 	long int Output = BigOptCode(Program, UserInput, IsFinished, ContinueFrom);
 
-	//cout << "and the solution is: " << AllResults.back() << "!\n";
+	// part 2
+	UserInput = 2; // provided by the puzzle
+	cout << "User input is: " << UserInput << "...\nAnd this is Part 2 solution: \n";
+	Program = CodeList; // clean copy of the program
+	Program.resize(1000000); // resize the program so it can go past its end
+	ContinueFrom = 0; // position to continue running the program from (zero for day 5)
+	IsFinished = false; // indicator that the program has hit code 99
+	Output = BigOptCode(Program, UserInput, IsFinished, ContinueFrom);
 
 
 	// solution part 1: 3638931938
-	// -656035358 not correct
-	// solution part 2:
+	// solution part 2: 86025
 
 }
