@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int BigGetResult(int code, int first, int second, int third)
+ long long int BigGetResult(int code,  long long int first,  long long int second, long long int third)
 {
 	switch (code)
 	{
@@ -33,7 +33,7 @@ int BigGetResult(int code, int first, int second, int third)
 	}
 }
 
-int BigOptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, int OptionalInput)
+ long long int BigOptCode(vector< long long int>& Program,  long long int DefaultInput, bool &IsFinished, int &pos, long long int OptionalInput)
 {
 	// Program is taken by reference because it is changed and needs to remain that way
 	// even after this runs
@@ -55,16 +55,16 @@ int BigOptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &po
 	//		otherwise this is provided as reference so that we can continue where we left
 	//		off last time a program was run (day 07)
 
-	int Output = 0;
+	long long int Output = 0;
 	int RelativeBase = 0;
 
 
 	while (pos < Program.size())
 	{
-		int result;
+		long long int result;
 		vector<int> CodeAndMode = CodesAndModes(Program.at(pos));
 		int code = CodeAndMode.at(0);
-		
+
 		if (code == 99)
 		{
 			pos++; // useless, but for the sake of completeness.
@@ -102,7 +102,7 @@ int BigOptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &po
 		if (ParametersInCommand >= 1) PositionFirstParameter = ParameterIndices.at(0);
 		if (ParametersInCommand >= 2) PositionSecondParameter = ParameterIndices.at(1);
 		if (ParametersInCommand >= 3) PositionThirdParameter = ParameterIndices.at(2);
-		int first, second, third, WritePosition;
+		long long int first, second, third, WritePosition;
 
 		switch (code)
 		{

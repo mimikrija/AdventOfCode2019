@@ -17,7 +17,7 @@ using namespace std;
 
 void Day_09(ifstream& InputFile)
 {
-	vector<int> CodeList;
+	vector< long long int> CodeList;
 
 	// read integers one by one
 	// fill solutions into a vector
@@ -35,13 +35,13 @@ void Day_09(ifstream& InputFile)
 
 
 	int UserInput = 1; // provided by the puzzle
-	cout << "User input is: " << UserInput << "...\nAnd this is the output: \n";
-	vector<int> Program = CodeList; // clean copy of the program
-	Program.resize(1000); // resize the program so it can go past its end
+	cout << "User input is: " << UserInput << "...\nAnd this is Part 1 solution: \n";
+	vector< long long int> Program = CodeList; // clean copy of the program
+	Program.resize(1000000); // resize the program so it can go past its end
 	vector<int> AllResults = {}; // clean placeholder for results (not necessary in day 5)
 	int ContinueFrom = 0; // position to continue running the program from (zero for day 5)
 	bool IsFinished = false; // indicator that the program has hit code 99
-	int Output = BigOptCode(Program, UserInput, IsFinished, ContinueFrom);
+	long int Output = BigOptCode(Program, UserInput, IsFinished, ContinueFrom);
 
 	//cout << "and the solution is: " << AllResults.back() << "!\n";
 

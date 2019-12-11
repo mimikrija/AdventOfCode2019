@@ -3,5 +3,5 @@
 
 // INTCode stuff
 
-int BigGetResult(int code, int first = 0, int second = 0, int third = 0);
-int BigOptCode(std::vector<int>& Program, int DefaultInput, bool &IsFinished, int &pos, int OptionalInput = -1);
+ long long int BigGetResult(int code,  long long int first = 0,  long long int second = 0, long long int third = 0);
+ long long int BigOptCode(std::vector< long long int>& Program,  long long int DefaultInput, bool &IsFinished, int &pos, long long int OptionalInput = -1);

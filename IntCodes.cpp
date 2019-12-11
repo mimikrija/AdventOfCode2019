@@ -5,9 +5,7 @@ using namespace std;
 int GetCode(int BigCode)
 {
 	if (BigCode < 100) return BigCode;
-	if (BigCode < 1000) return BigCode % 10;
-	if (BigCode < 10'000) return BigCode % 100;
-	return BigCode % 1'000;
+	else return BigCode % 10;
 }
 
 vector<int> CodesAndModes(int BigCode)
