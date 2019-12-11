@@ -17,7 +17,7 @@ using namespace std;
 
 void Day_11(ifstream& InputFile)
 {
-	vector< long long int> CodeList;
+	vector<long long int> CodeList;
 
 	// read integers one by one
 	// fill solutions into a vector
@@ -29,7 +29,8 @@ void Day_11(ifstream& InputFile)
 
 		while (getline(linestream, value, ','))
 		{
-			CodeList.push_back(stoi(value));
+			// this makes sure that very long ints are read in properly.
+			CodeList.push_back(strtol(value.c_str(),NULL,10));
 		}
 	}
 

@@ -29,7 +29,8 @@ void Day_09(ifstream& InputFile)
 
 		while (getline(linestream, value, ','))
 		{
-			CodeList.push_back(stoi(value));
+			// this makes sure that very long ints are read in properly.
+			CodeList.push_back(strtol(value.c_str(), NULL, 10));
 		}
 	}
 
