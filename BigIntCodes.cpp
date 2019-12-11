@@ -1,5 +1,6 @@
 #include "IntCodes.h"
 #include "BigIntCodes.h"
+#include <iostream>
 
 using namespace std;
 
@@ -155,6 +156,6 @@ int BigOptCode(vector<int>& Program, int DefaultInput, bool &IsFinished, int &po
 			Program.at(WritePosition) = result;
 
 		// return if output code is called
-		if (code == 4) return Output;
+		if (code == 4) std::cout << Output << "\n";
 	}
 }

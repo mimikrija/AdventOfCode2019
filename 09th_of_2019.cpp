@@ -35,17 +35,15 @@ void Day_09(ifstream& InputFile)
 
 
 	int UserInput = 1; // provided by the puzzle
-	cout << "User input is: " << UserInput << "...";
+	cout << "User input is: " << UserInput << "...\nAnd this is the output: \n";
 	vector<int> Program = CodeList; // clean copy of the program
+	Program.resize(1000); // resize the program so it can go past its end
 	vector<int> AllResults = {}; // clean placeholder for results (not necessary in day 5)
 	int ContinueFrom = 0; // position to continue running the program from (zero for day 5)
 	bool IsFinished = false; // indicator that the program has hit code 99
-	while (!IsFinished)
-	{
-		int Output = BigOptCode(Program, UserInput, IsFinished, ContinueFrom);
-		if (!IsFinished) AllResults.push_back(Output);
-	}
-	cout << "and the solution is: " << AllResults.back() << "!\n";
+	int Output = BigOptCode(Program, UserInput, IsFinished, ContinueFrom);
+
+	//cout << "and the solution is: " << AllResults.back() << "!\n";
 
 
 	// solution part 1:
