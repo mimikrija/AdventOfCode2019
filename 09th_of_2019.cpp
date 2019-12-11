@@ -46,7 +46,8 @@ void Day_09(ifstream& InputFile)
 	//cout << "and the solution is: " << AllResults.back() << "!\n";
 
 
-	// solution part 1:
+	// solution part 1: 3638931938
+	// -656035358 not correct
 	// solution part 2:
 
 }
