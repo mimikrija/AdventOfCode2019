@@ -133,6 +133,7 @@
     <ClCompile Include="..\07th_of_2019.cpp" />
     <ClCompile Include="..\08th_of_2019.cpp" />
     <ClCompile Include="..\09th_of_2019.cpp" />
+    <ClCompile Include="..\12th_of_2019.cpp" />
     <ClCompile Include="..\AoC2019.cpp" />
     <ClCompile Include="..\IntCodes.cpp" />
     <ClCompile Include="..\BigIntCodes.cpp" />

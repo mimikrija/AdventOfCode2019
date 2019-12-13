@@ -11,3 +11,5 @@ void Day_07(std::ifstream& InputFile);
 void Day_08(std::ifstream& InputFile);
 void Day_09(std::ifstream& InputFile);
 
+
+void Day_12(std::ifstream& InputFile);
