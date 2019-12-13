@@ -101,16 +101,22 @@ void Day_12(ifstream& InputFile)
 	Moons.push_back(Moon(-13, 18, -2));
 	Moons.push_back(Moon(6, 0, -1));
 
+	vector<pair<int, int>> Combinations{
+	make_pair(0,1),
+	make_pair(0,2),
+	make_pair(0,3),
+	make_pair(1,2),
+	make_pair(1,3),
+	make_pair(2,3)
+	};
+
+
+
 	for (int time = 1; time <= 1000; time++)
 	{
-		auto it = Moons.begin();
-		while (it != Moons.end())
+		for (auto Combo : Combinations)
 		{
-			for (auto MoonTwo : Moons)
-			{
-				ApplyGravity(*it, MoonTwo);
-			}
-			it++;
+			ApplyGravity(Moons.at(Combo.first), Moons.at(Combo.second));
 		}
 		for (auto Moon : Moons) Moon.ApplyVelocity();
 
