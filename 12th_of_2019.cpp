@@ -16,10 +16,12 @@ class Moon
 public:
 	Moon(int x, int y, int z);
 	~Moon();
-	
+	void ApplyVelocity();
+	int TotalEnergy();
+	int xpos, ypos, zpos, xvel = 0, yvel = 0, zvel = 0;
 
 private:
-	int xpos, ypos, zpos, xvel, yvel, zvel;
+	int Kinetic = 0, Potential = 0;
 
 };
 
@@ -33,6 +35,57 @@ Moon::Moon(int x, int y, int z)
 Moon::~Moon()
 {
 }
+
+void Moon::ApplyVelocity()
+{
+	xvel += xpos;
+	yvel += ypos;
+	zvel += zpos;
+}
+
+int Moon::TotalEnergy()
+{
+	Potential = abs(xpos) + abs(ypos) + abs(zpos);
+	Kinetic = abs(xvel) + abs(yvel) + abs(zvel);
+	return Potential + Kinetic;
+}
+void ApplyGravity(Moon &MoonOne, Moon &MoonTwo)
+{
+	if (MoonOne.xpos > MoonTwo.xpos)
+	{
+		MoonOne.xvel--;
+		MoonTwo.xvel++;
+	}
+	if (MoonOne.xpos < MoonTwo.xpos)
+	{
+		MoonOne.xvel++;
+		MoonTwo.xvel--;
+	}
+
+	if (MoonOne.ypos > MoonTwo.ypos)
+	{
+		MoonOne.yvel--;
+		MoonTwo.yvel++;
+	}
+	if (MoonOne.ypos < MoonTwo.ypos)
+	{
+		MoonOne.yvel++;
+		MoonTwo.yvel--;
+	}
+
+	if (MoonOne.zpos > MoonTwo.zpos)
+	{
+		MoonOne.zvel--;
+		MoonTwo.zvel++;
+	}
+	if (MoonOne.zpos < MoonTwo.zpos)
+	{
+		MoonOne.zvel++;
+		MoonTwo.zvel--;
+	}
+}
+
+
 
 void Day_12(ifstream& InputFile)
 {
@@ -48,4 +101,28 @@ void Day_12(ifstream& InputFile)
 	Moons.push_back(Moon(-13, 18, -2));
 	Moons.push_back(Moon(6, 0, -1));
 
+	for (int time = 1; time <= 1000; time++)
+	{
+		auto it = Moons.begin();
+		while (it != Moons.end())
+		{
+			for (auto MoonTwo : Moons)
+			{
+				ApplyGravity(*it, MoonTwo);
+			}
+			it++;
+		}
+		for (auto Moon : Moons) Moon.ApplyVelocity();
+
+	}
+
+//	int TotalEnergy = accumulate(Moons.begin(), Moons.end(), [](auto Moon) {return Moon.TotalEnergy()}, 0);
+	int TotalEnergy = 0;
+
+	for (auto Moon : Moons)
+	{
+		TotalEnergy += Moon.TotalEnergy();
+	}
+
+	cout << "Total energy is " << TotalEnergy << "!\n";
 }
