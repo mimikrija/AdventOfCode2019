@@ -17,8 +17,10 @@ public:
 	Moon(int x, int y, int z);
 	~Moon();
 	void ApplyVelocity();
+	void UpdateGravity();
 	int TotalEnergy();
 	int xpos, ypos, zpos, xvel = 0, yvel = 0, zvel = 0;
+	int xvelnew = 0, yvelnew = 0, zvelnew = 0;
 
 private:
 	int Kinetic = 0, Potential = 0;
@@ -38,9 +40,9 @@ Moon::~Moon()
 
 void Moon::ApplyVelocity()
 {
-	xvel += xpos;
-	yvel += ypos;
-	zvel += zpos;
+	xpos += xvel;
+	ypos += yvel;
+	zpos += zvel;
 }
 
 int Moon::TotalEnergy()
@@ -49,39 +51,51 @@ int Moon::TotalEnergy()
 	Kinetic = abs(xvel) + abs(yvel) + abs(zvel);
 	return Potential + Kinetic;
 }
+
+void Moon::UpdateGravity()
+{
+	xvel += xvelnew;
+	yvel += yvelnew;
+	zvel += zvelnew;
+
+	xvelnew = 0;
+	yvelnew = 0;
+	zvelnew = 0;
+}
+
 void ApplyGravity(Moon &MoonOne, Moon &MoonTwo)
 {
 	if (MoonOne.xpos > MoonTwo.xpos)
 	{
-		MoonOne.xvel--;
-		MoonTwo.xvel++;
+		MoonOne.xvelnew--;
+		MoonTwo.xvelnew++;
 	}
 	if (MoonOne.xpos < MoonTwo.xpos)
 	{
-		MoonOne.xvel++;
-		MoonTwo.xvel--;
+		MoonOne.xvelnew++;
+		MoonTwo.xvelnew--;
 	}
 
 	if (MoonOne.ypos > MoonTwo.ypos)
 	{
-		MoonOne.yvel--;
-		MoonTwo.yvel++;
+		MoonOne.yvelnew--;
+		MoonTwo.yvelnew++;
 	}
 	if (MoonOne.ypos < MoonTwo.ypos)
 	{
-		MoonOne.yvel++;
-		MoonTwo.yvel--;
+		MoonOne.yvelnew++;
+		MoonTwo.yvelnew--;
 	}
 
 	if (MoonOne.zpos > MoonTwo.zpos)
 	{
-		MoonOne.zvel--;
-		MoonTwo.zvel++;
+		MoonOne.zvelnew--;
+		MoonTwo.zvelnew++;
 	}
 	if (MoonOne.zpos < MoonTwo.zpos)
 	{
-		MoonOne.zvel++;
-		MoonTwo.zvel--;
+		MoonOne.zvelnew++;
+		MoonTwo.zvelnew--;
 	}
 }
 
