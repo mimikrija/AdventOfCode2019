@@ -49,7 +49,7 @@ int Moon::TotalEnergy()
 {
 	Potential = abs(xpos) + abs(ypos) + abs(zpos);
 	Kinetic = abs(xvel) + abs(yvel) + abs(zvel);
-	return Potential + Kinetic;
+	return Potential * Kinetic;
 }
 
 void Moon::UpdateGravity()
