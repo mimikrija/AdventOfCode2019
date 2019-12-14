@@ -132,14 +132,18 @@ void Day_12(ifstream& InputFile)
 		{
 			ApplyGravity(Moons.at(Combo.first), Moons.at(Combo.second));
 		}
-		for (auto Moon : Moons) Moon.ApplyVelocity();
+		for (auto &Moon : Moons)
+		{
+			Moon.UpdateGravity();
+			Moon.ApplyVelocity();
+		}
 
 	}
 
 //	int TotalEnergy = accumulate(Moons.begin(), Moons.end(), [](auto Moon) {return Moon.TotalEnergy()}, 0);
 	int TotalEnergy = 0;
 
-	for (auto Moon : Moons)
+	for (auto &Moon : Moons)
 	{
 		TotalEnergy += Moon.TotalEnergy();
 	}
