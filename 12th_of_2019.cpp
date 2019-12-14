@@ -149,7 +149,7 @@ void Day_12(ifstream& InputFile)
 	};
 
 
-	long long int PartTwo = 0;
+	unsigned long long int PartTwo = 0;
 	for (int time = 1; time <= 1000; time++)
 	{
 		for (auto Combo : Combinations)
@@ -179,9 +179,13 @@ void Day_12(ifstream& InputFile)
 	}
 
 	cout << "Total energy is " << TotalEnergy << "!\n";
-
-	int time = 1000;
-	while ( PartTwo == 0)
+	// should time, energy and part two be long int??
+	long long int time = 1000;
+	vector<long long int> Matchesx(4, 0), Matchesy(4,0), Matchesz(4,0);
+	while ( find(Matchesx.begin(),Matchesx.end(),0) != Matchesx.end()
+		|| find(Matchesy.begin(), Matchesy.end(), 0) != Matchesy.end()
+		|| find(Matchesz.begin(), Matchesz.end(), 0) != Matchesz.end()
+		)
 	{
 		time++;
 		for (auto Combo : Combinations)
@@ -194,29 +198,37 @@ void Day_12(ifstream& InputFile)
 			Moon.ApplyVelocity();
 		}
 
-		for (auto& Moon : Moons)
+		for (int index = 0; index < 4; index++)
 		{
-			TotalEnergy += Moon.TotalEnergy();
-		}
-
-		if (TotalEnergy == OriginalEnergy)
-		{
-			bool AllMatch = false;
-			for (int index = 0; index < 4; index++)
+			if (Moons.at(index).xpos == OriginalConstelation.at(index).xpos &&
+				Moons.at(index).xvel == OriginalConstelation.at(index).xvel)
 			{
-				if (!(Moons.at(index) == OriginalConstelation.at(index)))
-				{
-					AllMatch = false;
-					continue;
-				}
-				else AllMatch = true;
+				Matchesx.at(index) = time;
 			}
-			if (AllMatch) PartTwo = time;
+
+			if (Moons.at(index).ypos == OriginalConstelation.at(index).ypos &&
+				Moons.at(index).yvel == OriginalConstelation.at(index).yvel)
+			{
+				Matchesy.at(index) = time;
+			}
+
+			if (Moons.at(index).zpos == OriginalConstelation.at(index).zpos &&
+				Moons.at(index).zvel == OriginalConstelation.at(index).zvel)
+			{
+				Matchesz.at(index) = time;
+			}
 		}
 	}
+	long long int LCMx, LCMy, LCMz;
+	LCMx = lcm(lcm(lcm(Matchesx.at(0), Matchesx.at(1)), Matchesx.at(2)), Matchesx.at(3));
+	LCMy = lcm(lcm(lcm(Matchesy.at(0), Matchesy.at(1)), Matchesy.at(2)), Matchesy.at(3));
+	LCMz = lcm(lcm(lcm(Matchesz.at(0), Matchesz.at(1)), Matchesz.at(2)), Matchesz.at(3));
 
+	PartTwo = lcm(lcm(LCMx, LCMy), LCMz);
+		
 	cout << "They align after " << PartTwo << " timesteps!\n";
 
-	// Part2 230224315 too low
+	// Part2 10905535414612983616 not correct
+	// Part2  1443288054496335952 not correct
 
 }
