@@ -128,6 +128,12 @@ void Day_12(ifstream& InputFile)
 	OriginalConstelation.push_back(Moon(-13, 18, -2));
 	OriginalConstelation.push_back(Moon(6, 0, -1));
 
+	int OriginalEnergy = 0;
+	for (auto& Moon : OriginalConstelation)
+	{
+		OriginalEnergy += Moon.TotalEnergy();
+	}
+
 	//Moons.push_back(Moon(-1, 0, 2));
 	//Moons.push_back(Moon(2, -10, -7));
 	//Moons.push_back(Moon(4, -8, 8));
@@ -188,18 +194,25 @@ void Day_12(ifstream& InputFile)
 			Moon.ApplyVelocity();
 		}
 
-		bool AllMatch = false;
-		for (int index = 0; index < 4; index++)
+		for (auto& Moon : Moons)
 		{
-			// need to add a counter so that this is 4 times equal
-			if (!(Moons.at(index) == OriginalConstelation.at(index)))
-			{
-				AllMatch = false;
-				continue;
-			}
-			else AllMatch = true;
+			TotalEnergy += Moon.TotalEnergy();
 		}
-		if (AllMatch) PartTwo = time;
+
+		if (TotalEnergy == OriginalEnergy)
+		{
+			bool AllMatch = false;
+			for (int index = 0; index < 4; index++)
+			{
+				if (!(Moons.at(index) == OriginalConstelation.at(index)))
+				{
+					AllMatch = false;
+					continue;
+				}
+				else AllMatch = true;
+			}
+			if (AllMatch) PartTwo = time;
+		}
 	}
 
 	cout << "They align after " << PartTwo << " timesteps!\n";
