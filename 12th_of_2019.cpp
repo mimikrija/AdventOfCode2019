@@ -110,34 +110,28 @@ void ApplyGravity(Moon &MoonOne, Moon &MoonTwo)
 
 void Day_12(ifstream& InputFile)
 {
-	// I am
+	// Input:
 	//<x = -3, y = 15, z = -11>
 	//	<x = 3, y = 13, z = -19>
 	//	<x = -13, y = 18, z = -2>
 	//	<x = 6, y = 0, z = -1>
 	// parse input
 	vector<Moon> Moons;
-	Moons.push_back(Moon(-3, 15, -11));
-	Moons.push_back(Moon(3, 13, -19));
-	Moons.push_back(Moon(-13, 18, -2));
-	Moons.push_back(Moon(6, 0, -1));
+	// my input
+	//Moons.push_back(Moon(-3, 15, -11));
+	//Moons.push_back(Moon(3, 13, -19));
+	//Moons.push_back(Moon(-13, 18, -2));
+	//Moons.push_back(Moon(6, 0, -1));
 
-	vector<Moon>OriginalConstelation;
-	OriginalConstelation.push_back(Moon(-3, 15, -11));
-	OriginalConstelation.push_back(Moon(3, 13, -19));
-	OriginalConstelation.push_back(Moon(-13, 18, -2));
-	OriginalConstelation.push_back(Moon(6, 0, -1));
+	
 
-	int OriginalEnergy = 0;
-	for (auto& Moon : OriginalConstelation)
-	{
-		OriginalEnergy += Moon.TotalEnergy();
-	}
+	// example
+	Moons.push_back(Moon(-1, 0, 2));
+	Moons.push_back(Moon(2, -10, -7));
+	Moons.push_back(Moon(4, -8, 8));
+	Moons.push_back(Moon(3, 5, -1));
+	vector<Moon>OriginalConstelation = Moons;
 
-	//Moons.push_back(Moon(-1, 0, 2));
-	//Moons.push_back(Moon(2, -10, -7));
-	//Moons.push_back(Moon(4, -8, 8));
-	//Moons.push_back(Moon(3, 5, -1));
 
 	vector<pair<int, int>> Combinations{
 	make_pair(0,1),
@@ -179,7 +173,14 @@ void Day_12(ifstream& InputFile)
 	}
 
 	cout << "Total energy is " << TotalEnergy << "!\n";
-	// should time, energy and part two be long int??
+
+
+	// Part 2:
+
+	// Determine the number of steps that must occur before all of the moons'
+	// positions and velocities exactly match a previous point in time
+
+	// I thought the initial point. Oh well. I'll get back to this.
 	long long int time = 1000;
 	vector<long long int> Matchesx(4, 0), Matchesy(4,0), Matchesz(4,0);
 	while ( find(Matchesx.begin(),Matchesx.end(),0) != Matchesx.end()
@@ -231,4 +232,5 @@ void Day_12(ifstream& InputFile)
 	// Part2 10905535414612983616 not correct
 	// Part2  1443288054496335952 not correct
 
+	
 }
