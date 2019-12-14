@@ -24,7 +24,8 @@ public:
 
 
 	bool operator==(const Moon& m) {
-		return (xpos == m.xpos && ypos == m.ypos && zpos == m.zpos);
+		return (xpos == m.xpos && ypos == m.ypos && zpos == m.zpos &&
+				xvel == m.xvel && yvel == m.yvel && zvel == m.zvel);
 	}
 
 private:
