@@ -22,8 +22,14 @@ public:
 	int xpos, ypos, zpos, xvel = 0, yvel = 0, zvel = 0;
 	int xvelnew = 0, yvelnew = 0, zvelnew = 0;
 
+
+	bool operator==(const Moon& m) {
+		return (xpos == m.xpos && ypos == m.ypos && zpos == m.zpos);
+	}
+
 private:
 	int Kinetic = 0, Potential = 0;
+
 
 };
 
@@ -115,6 +121,17 @@ void Day_12(ifstream& InputFile)
 	Moons.push_back(Moon(-13, 18, -2));
 	Moons.push_back(Moon(6, 0, -1));
 
+	vector<Moon>OriginalConstelation;
+	OriginalConstelation.push_back(Moon(-3, 15, -11));
+	OriginalConstelation.push_back(Moon(3, 13, -19));
+	OriginalConstelation.push_back(Moon(-13, 18, -2));
+	OriginalConstelation.push_back(Moon(6, 0, -1));
+
+	//Moons.push_back(Moon(-1, 0, 2));
+	//Moons.push_back(Moon(2, -10, -7));
+	//Moons.push_back(Moon(4, -8, 8));
+	//Moons.push_back(Moon(3, 5, -1));
+
 	vector<pair<int, int>> Combinations{
 	make_pair(0,1),
 	make_pair(0,2),
@@ -125,7 +142,7 @@ void Day_12(ifstream& InputFile)
 	};
 
 
-
+	long long int PartTwo = 0;
 	for (int time = 1; time <= 1000; time++)
 	{
 		for (auto Combo : Combinations)
@@ -136,6 +153,12 @@ void Day_12(ifstream& InputFile)
 		{
 			Moon.UpdateGravity();
 			Moon.ApplyVelocity();
+		}
+
+		for (int index = 0; index < 4; index++)
+		{
+			if (!(Moons.at(index) == OriginalConstelation.at(index))) continue;
+			else PartTwo = time;
 		}
 
 	}
@@ -149,4 +172,37 @@ void Day_12(ifstream& InputFile)
 	}
 
 	cout << "Total energy is " << TotalEnergy << "!\n";
+
+	int time = 1000;
+	while ( PartTwo == 0)
+	{
+		time++;
+		for (auto Combo : Combinations)
+		{
+			ApplyGravity(Moons.at(Combo.first), Moons.at(Combo.second));
+		}
+		for (auto& Moon : Moons)
+		{
+			Moon.UpdateGravity();
+			Moon.ApplyVelocity();
+		}
+
+		bool AllMatch = false;
+		for (int index = 0; index < 4; index++)
+		{
+			// need to add a counter so that this is 4 times equal
+			if (!(Moons.at(index) == OriginalConstelation.at(index)))
+			{
+				AllMatch = false;
+				continue;
+			}
+			else AllMatch = true;
+		}
+		if (AllMatch) PartTwo = time;
+	}
+
+	cout << "They align after " << PartTwo << " timesteps!\n";
+
+	// Part2 230224315 too low
+
 }
