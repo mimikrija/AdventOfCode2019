@@ -22,23 +22,40 @@ void Day_16(ifstream& InputFile)
 	}
 
 	vector<int> BasePattern = { 0, 1, 0, -1 };
+	vector<vector<int>> BasePatterns(Pattern.size());
 
-
-	
-	vector<int> ResultPerRun;
-	for (int pass = 0; pass < Pattern.size(); pass++)
+	int pass = 1;
+	for (auto &PaternPerPass : BasePatterns)
 	{
-		vector<int> CurrentPattern(Pattern.size() - pass);
-		copy(Pattern.begin() + pass, Pattern.end(), CurrentPattern.begin());
+		int i = 0;
+		for (auto counter = 1; counter <= Pattern.size()+1; counter++)
+		{
+			PaternPerPass.push_back(BasePattern.at(i));
+			if (counter % pass == 0)
+			{
+				i == 3 ? i = 0 : i++;
+			}
+		}
+		rotate(PaternPerPass.begin(), PaternPerPass.begin() + 1, PaternPerPass.end());
+		PaternPerPass.resize(Pattern.size());
+		pass++;
+	}
+	int passcounter = 0;
+	vector<int> ResultPerRun(4);
+	for (int run = 1; run <= 4; run++)
+	{
+		vector<int> CurrentPattern = Pattern;
 		int sum = 0;
+		
 		int i = 0;
 		for (auto Digit : CurrentPattern)
 		{
-			sum += Digit * BasePattern.at(i);
-			i == 3 ? i = 0 : i++;
+				sum += Digit * (BasePatterns.at(passcounter)).at(i);
+				i++;
 		}
+		passcounter++;
 		ResultPerRun.push_back(abs(sum % 10));
 	}
-
+	cout << ResultPerRun.size();
 
 }
