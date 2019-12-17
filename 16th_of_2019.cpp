@@ -12,7 +12,7 @@ using namespace std;
 vector<vector<int>> PatternPerPass (vector<int> Input)
 {
 	vector<int> BasePattern = { 0, 1, 0, -1 };
-	vector<vector<int>> BasePatterns(Input.size());
+	vector<vector<int>> BasePatterns(Input.size()/2);
 	int pass = 1;
 	for (auto &PaternPerPass : BasePatterns)
 	{
@@ -46,12 +46,15 @@ void GetSolution(vector<int> Input, vector<vector<int>> BasePatterns, int Messag
 		{
 			int sum = 0;
 			int i = 0;
-
-			for (auto Digit : CurrentPattern)
+			if (run <= CurrentPattern.size() / 2)
 			{
-				sum += Digit * (BasePatterns.at(passcounter)).at(i);
-				i++;
+				for (auto Digit : CurrentPattern)
+				{
+					sum += Digit * (BasePatterns.at(passcounter)).at(i);
+					i++;
+				}
 			}
+			else sum = accumulate(CurrentPattern.begin() + run-1, CurrentPattern.end(), 0);
 			passcounter++;
 			Result.push_back(abs(sum % 10));
 			if (phase == 100 && run > MessageOffset && run <= MessageOffset + 8) cout << abs(sum % 10);
