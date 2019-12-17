@@ -43,7 +43,9 @@ void Day_16(ifstream& InputFile)
 	{
 		Pattern.push_back(Digit-'0');
 	}
-
+	
+	vector<int> PatternPartTwo;
+	for (int count = 1; count <= 10'000; count++) PatternPartTwo.insert(PatternPartTwo.end(),Pattern.begin(),Pattern.end());
 
 	
 	// get phase patterns
