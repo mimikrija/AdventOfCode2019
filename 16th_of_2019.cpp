@@ -32,6 +32,33 @@ vector<vector<int>> PatternPerPass (vector<int> Input)
 	return BasePatterns;
 }
 
+void GetSolution(vector<int> Input, vector<vector<int>> BasePatterns, int MessageOffset)
+{
+	vector<int> Result = Input;
+	vector<int> BasePattern = { 0, 1, 0, -1 };
+	for (int phase = 1; phase <= 100; phase++)
+	{
+		int passcounter = 0;
+		vector<int> CurrentPattern = Result;
+		Result = {};
+		//cout << "After phase " << phase << ": ";
+		for (int run = 1; run <= CurrentPattern.size(); run++)
+		{
+			int sum = 0;
+			int i = 0;
+
+			for (auto Digit : CurrentPattern)
+			{
+				sum += Digit * (BasePatterns.at(passcounter)).at(i);
+				i++;
+			}
+			passcounter++;
+			Result.push_back(abs(sum % 10));
+			if (phase == 100 && run > MessageOffset && run <= MessageOffset + 8) cout << abs(sum % 10);
+		}
+	}
+}
+
 void Day_16(ifstream& InputFile)
 {
 	int Digit;
@@ -52,30 +79,9 @@ void Day_16(ifstream& InputFile)
 	// get phase patterns
 	vector<vector<int>> BasePatterns = PatternPerPass(Pattern);
 
-	// calculate 100 phases
+	
 	cout << "Part 1 solution is: ";
-	vector<int> Result = Pattern;
-	for (int phase = 1; phase <= 100; phase++)
-	{
-		int passcounter = 0;
-		vector<int> CurrentPattern = Result;
-		Result = {};
-		//cout << "After phase " << phase << ": ";
-		for (int run = 1; run <= CurrentPattern.size(); run++)
-		{
-			int sum = 0;
-
-			int i = 0;
-			for (auto Digit : CurrentPattern)
-			{
-				sum += Digit * (BasePatterns.at(passcounter)).at(i);
-				i++;
-			}
-			passcounter++;
-			Result.push_back(abs(sum % 10));
-			if ( phase == 100 && run <= 8 ) cout << abs(sum % 10);
-		}
-	}
+	GetSolution(Pattern, BasePatterns, 0);
 	cout << "\n";
 
 	// part 2
@@ -86,7 +92,11 @@ void Day_16(ifstream& InputFile)
 	long int MessageOffset = 0;
 	for_each(Pattern.begin(), Pattern.begin() + 7, [&count,&MessageOffset](int digit) {count++; MessageOffset+= int(digit * pow(10, count)); });
 
+	cout << "Part 2 solution is: ";
+	vector<vector<int>> BasePatternsPartTwo = PatternPerPass(PatternPartTwo);
+	GetSolution(PatternPartTwo, BasePatternsPartTwo, MessageOffset);
+	cout << "\n";
 
-	// part 1: 58672132  5971723
+	// part 1: 58672132
 
 }
