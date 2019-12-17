@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <numeric>
 #include <iterator>
+#include <cmath>
 #include "DayHeaders.h"
 
 using namespace std;
@@ -44,8 +45,8 @@ void Day_16(ifstream& InputFile)
 		Pattern.push_back(Digit-'0');
 	}
 	
-	vector<int> PatternPartTwo;
-	for (int count = 1; count <= 10'000; count++) PatternPartTwo.insert(PatternPartTwo.end(),Pattern.begin(),Pattern.end());
+
+
 
 	
 	// get phase patterns
@@ -76,6 +77,16 @@ void Day_16(ifstream& InputFile)
 		}
 	}
 	cout << "\n";
-	// part 1: 58672132
+
+	// part 2
+	vector<int> PatternPartTwo;
+	for (int count = 1; count <= 10'000; count++) PatternPartTwo.insert(PatternPartTwo.end(), Pattern.begin(), Pattern.end());
+	int count = -1;
+	//auto MessageOffset = accumulate(Pattern.begin(), Pattern.begin() + 6, 0, [](auto &digit) { return digit*2 ; });
+	long int MessageOffset = 0;
+	for_each(Pattern.begin(), Pattern.begin() + 7, [&count,&MessageOffset](int digit) {count++; MessageOffset+= int(digit * pow(10, count)); });
+
+
+	// part 1: 58672132  5971723
 
 }
