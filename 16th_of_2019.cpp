@@ -23,7 +23,8 @@ void Day_16(ifstream& InputFile)
 
 	vector<int> BasePattern = { 0, 1, 0, -1 };
 	vector<vector<int>> BasePatterns(Pattern.size());
-
+	
+	// get phase patterns
 	int pass = 1;
 	for (auto &PaternPerPass : BasePatterns)
 	{
@@ -40,22 +41,32 @@ void Day_16(ifstream& InputFile)
 		PaternPerPass.resize(Pattern.size());
 		pass++;
 	}
-	int passcounter = 0;
-	vector<int> ResultPerRun(4);
-	for (int run = 1; run <= 4; run++)
+
+	// calculate 100 phases
+	cout << "Part 1 solution is: ";
+	vector<int> Result = Pattern;
+	for (int phase = 1; phase <= 100; phase++)
 	{
-		vector<int> CurrentPattern = Pattern;
-		int sum = 0;
-		
-		int i = 0;
-		for (auto Digit : CurrentPattern)
+		int passcounter = 0;
+		vector<int> CurrentPattern = Result;
+		Result = {};
+		//cout << "After phase " << phase << ": ";
+		for (int run = 1; run <= CurrentPattern.size(); run++)
 		{
+			int sum = 0;
+
+			int i = 0;
+			for (auto Digit : CurrentPattern)
+			{
 				sum += Digit * (BasePatterns.at(passcounter)).at(i);
 				i++;
+			}
+			passcounter++;
+			Result.push_back(abs(sum % 10));
+			if ( phase == 100 && run <= 8 ) cout << abs(sum % 10);
 		}
-		passcounter++;
-		ResultPerRun.push_back(abs(sum % 10));
 	}
-	cout << ResultPerRun.size();
+	cout << "\n";
+	// part 1: 58672132
 
 }
