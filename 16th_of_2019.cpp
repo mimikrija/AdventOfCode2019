@@ -8,6 +8,29 @@
 
 using namespace std;
 
+vector<vector<int>> PatternPerPass (vector<int> Input)
+{
+	vector<int> BasePattern = { 0, 1, 0, -1 };
+	vector<vector<int>> BasePatterns(Input.size());
+	int pass = 1;
+	for (auto &PaternPerPass : BasePatterns)
+	{
+		int i = 0;
+		for (auto counter = 1; counter <= Input.size() + 1; counter++)
+		{
+			PaternPerPass.push_back(BasePattern.at(i));
+			if (counter % pass == 0)
+			{
+				i == 3 ? i = 0 : i++;
+			}
+		}
+		rotate(PaternPerPass.begin(), PaternPerPass.begin() + 1, PaternPerPass.end());
+		PaternPerPass.resize(Input.size());
+		pass++;
+	}
+	return BasePatterns;
+}
+
 void Day_16(ifstream& InputFile)
 {
 	int Digit;
@@ -21,26 +44,10 @@ void Day_16(ifstream& InputFile)
 		Pattern.push_back(Digit-'0');
 	}
 
-	vector<int> BasePattern = { 0, 1, 0, -1 };
-	vector<vector<int>> BasePatterns(Pattern.size());
+
 	
 	// get phase patterns
-	int pass = 1;
-	for (auto &PaternPerPass : BasePatterns)
-	{
-		int i = 0;
-		for (auto counter = 1; counter <= Pattern.size()+1; counter++)
-		{
-			PaternPerPass.push_back(BasePattern.at(i));
-			if (counter % pass == 0)
-			{
-				i == 3 ? i = 0 : i++;
-			}
-		}
-		rotate(PaternPerPass.begin(), PaternPerPass.begin() + 1, PaternPerPass.end());
-		PaternPerPass.resize(Pattern.size());
-		pass++;
-	}
+	vector<vector<int>> BasePatterns = PatternPerPass(Pattern);
 
 	// calculate 100 phases
 	cout << "Part 1 solution is: ";
