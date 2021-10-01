@@ -24,12 +24,17 @@ def intcode(prog, position=0):
         raise ValueError('unknown opcode encountered!')
     return prog, position + 4
 
+def reset_memory(in_program, value1, value2, pos1=1, pos2=2):
+    out_program = list(in_program)
+    out_program[pos1] = value1
+    out_program[pos2] = value2
+    return out_program
+
 program = list(map(int, get_input('inputs/02',',')))
 fresh_program = list(program)
 # To do this, before running the program, replace position 1
 # with the value 12 and replace position 2 with the value 2.
-program[1] = 12
-program[2] = 2
+program_part_1 = reset_memory(program, 12, 2)
 
 def run_program(program):
     position = 0
@@ -38,13 +43,11 @@ def run_program(program):
         if position == None:
             return program
 
-party_1 = run_program(program)[0]
+party_1 = run_program(program_part_1)[0]
 
 for noun, verb in product(range(0, 100), repeat=2):
-    program = list(fresh_program)
-    program[1] = noun
-    program[2] = verb
-    if run_program(program)[0] == 19690720:
+    program_part_2 = reset_memory(program, noun, verb)
+    if run_program(program_part_2)[0] == 19690720:
         party_2 = 100 * noun + verb
         break
 
