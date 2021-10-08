@@ -1,6 +1,7 @@
 # Day 4: Secure Container
 
 from santas_little_helpers import *
+from collections import Counter
 
 def is_valid(password):
     if len(password) != 6:
@@ -11,9 +12,13 @@ def is_valid(password):
         return True
     return False
 
+def new_rule(password):
+    return 2 in Counter(password).values()
+
 low, high = map(int, get_input('inputs/input04','-'))
 
-party_1 = sum(is_valid(str(password)) for password in range(low, high+1))
 
-print_solutions(party_1)
+party_1 = sum(is_valid(str(password)) for password in range(low, high+1))
+party_2 = sum(is_valid(str(password)) and new_rule(str(password)) for password in range(low, high+1))
+print_solutions(party_1, party_2)
 
