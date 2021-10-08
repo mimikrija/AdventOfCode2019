@@ -33,16 +33,16 @@ class Program:
             return reduce(mul, arguments)
 
     def run(self):
-        current_address = 0
+        instruction_pointer = 0
         while True:
-            opcode = self.memory[current_address]
+            opcode = self.memory[instruction_pointer]
             if opcode == 99:
                 return
-            parameters = self.get_parameters(current_address)
+            parameters = self.get_parameters(instruction_pointer)
             arguments = [self.memory[num] for num in parameters[:-1]]
             result_position = parameters[-1]
             self.set(result_position, self.operation(opcode, arguments))
-            current_address += len(parameters) + 1
+            instruction_pointer += len(parameters) + 1
 
 
 original_program = list(map(int, get_input('inputs/02',',')))
