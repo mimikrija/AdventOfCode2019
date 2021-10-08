@@ -12,7 +12,7 @@ class Program:
         99: 0,
     }
 
-    def __init__(self, input=[]):
+    def __init__(self, input):
         self.memory = list(input)
         self.address = 0
 
