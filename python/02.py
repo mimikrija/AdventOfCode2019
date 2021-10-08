@@ -13,7 +13,7 @@ class Program:
     }
 
     def __init__(self, input=[]):
-        self.memory = input
+        self.memory = list(input)
         self.address = 0
 
     def get(self, address):
@@ -52,9 +52,6 @@ program_part_1.set(1, 12)
 program_part_1.set(2, 2)
 party_1 = program_part_1.run().get(0)
 
-print_solutions(party_1)
-
-# this now doesn't work KeyError: 3516593
 for noun, verb in product(range(0, 100), repeat=2):
     program_part_2 = Program(original_program)
     program_part_2.set(1, noun)
