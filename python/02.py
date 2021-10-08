@@ -5,7 +5,7 @@ from itertools import product
 from intcode import Program
 
 
-original_program = list(map(int, get_input('inputs/02',',')))
+original_program = list(map(int, get_input('inputs/input02',',')))
 
 program_part_1 = Program(original_program)
 program_part_1.set(1, 12)

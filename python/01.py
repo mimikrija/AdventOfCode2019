@@ -24,7 +24,7 @@ def recursive_fuel(in_mass):
             return fuel
 
 
-masses = list(map(int, get_input('inputs/01')))
+masses = list(map(int, get_input('inputs/input01')))
 
 party_1 = sum(calculate_fuel(mass) for mass in masses)
 party_2 = sum(recursive_fuel(mass) for mass in masses)
