@@ -1,10 +1,12 @@
 from functools import reduce
-from operator import mul
+from operator import mod, mul
 
 class Program:
     VALUES_IN_INSTRUCTION = {
         1: 3,
         2: 3,
+        3: 1,
+        4: 1,
         99: 0,
     }
 
@@ -31,10 +33,14 @@ class Program:
         if opcode == 2:
             return reduce(mul, arguments)
 
+    def parse_opcode(self, address):
+        opcode_and_modes = str(self.memory[address]).zfill(5)
+        return int(opcode_and_modes[-2:]), list(map(int, opcode_and_modes[2::-1]))
+
     def run(self):
         instruction_pointer = 0
         while True:
-            opcode = self.memory[instruction_pointer]
+            opcode, parameter_modes = self.parse_opcode(instruction_pointer)
             if opcode == 99:
                 return
             parameters = self.get_parameters(instruction_pointer)
