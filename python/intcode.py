@@ -22,6 +22,9 @@ class Program:
         num_of_parameters = self.VALUES_IN_INSTRUCTION[self.memory[address]]
         return self.memory[address+1:address+num_of_parameters+1]
 
+    def get_arguments(self, parameters):
+        return [self.memory[num] for num in parameters[:-1]]
+
     def operation(self, opcode, arguments):
         if opcode == 1:
             return sum(arguments)
@@ -35,7 +38,8 @@ class Program:
             if opcode == 99:
                 return
             parameters = self.get_parameters(instruction_pointer)
-            arguments = [self.memory[num] for num in parameters[:-1]]
+            arguments = self.get_arguments(parameters)
+            # Parameters that an instruction writes to will never be in immediate mode:
             result_position = parameters[-1]
             self.set(result_position, self.operation(opcode, arguments))
             instruction_pointer += len(parameters) + 1
