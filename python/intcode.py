@@ -10,7 +10,7 @@ class Program:
 
     def __init__(self, input):
         self.memory = list(input)
-        self.address = 0
+        self.instr_pointer = 0
 
     def get(self, address):
         return self.memory[address]
@@ -43,14 +43,13 @@ class Program:
         return int(opcode_and_modes[-2:]), list(map(int, opcode_and_modes[2::-1]))
 
     def run(self):
-        instruction_pointer = 0
         while True:
-            opcode, parameter_modes = self.parse_opcode(instruction_pointer)
+            opcode, parameter_modes = self.parse_opcode(self.instr_pointer)
             if opcode == 99:
                 return
-            parameters = self.get_parameters(instruction_pointer)
+            parameters = self.get_parameters(self.instr_pointer)
             arguments = self.get_arguments(parameters, parameter_modes)
             # Parameters that an instruction writes to will never be in immediate mode:
             result_position = parameters[-1]
             self.set(result_position, self.operation(opcode, arguments))
-            instruction_pointer += len(parameters) + 1
+            self.instr_pointer += len(parameters) + 1
