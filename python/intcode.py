@@ -33,10 +33,11 @@ class Program:
         return arguments
 
     def operation(self, opcode, arguments):
+        first, second = arguments
         if opcode == 1:
-            return sum(arguments)
+            return first + second
         if opcode == 2:
-            return reduce(mul, arguments)
+            return first * second
 
     def parse_opcode(self, address):
         opcode_and_modes = str(self.memory[address]).zfill(5)
