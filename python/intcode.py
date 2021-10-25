@@ -18,39 +18,29 @@ class Program:
     def set(self, address, value):
         self.memory[address] = value
 
-    def get_parameters(self, address):
-        num_of_parameters = self.VALUES_IN_INSTRUCTION[self.memory[address]]
-        return self.memory[address+1:address+num_of_parameters+1]
+    def get_argument(self, arg_pos):
+        immediate_mode = self.memory[self.instr_pointer] // 10**(2+arg_pos)
+        parameter = self.memory[self.instr_pointer+arg_pos]
+        if immediate_mode:
+            return parameter
+        else: # position mode
+            return self.memory[parameter]
 
-    def get_arguments(self, parameters, modes):
-        arguments = []
-        for parameter, mode in zip(parameters[:-1], modes):
-            if mode == 0: # position mode
-                argument = self.memory[parameter]
-            else: # immediate mode
-                argument = parameter
-            arguments.append(argument)
-        return arguments
-
-    def operation(self, opcode, arguments):
-        first, second = arguments
+    def binary_operation(self, opcode):
+        first, second = [self.get_argument(pos) for pos in {1,2}]
         if opcode == 1:
             return first + second
         if opcode == 2:
             return first * second
 
-    def parse_opcode(self, address):
-        opcode_and_modes = str(self.memory[address]).zfill(5)
-        return int(opcode_and_modes[-2:]), list(map(int, opcode_and_modes[2::-1]))
-
     def run(self):
         while True:
-            opcode, parameter_modes = self.parse_opcode(self.instr_pointer)
+            opcode = self.get(self.instr_pointer)
             if opcode == 99:
                 return
-            parameters = self.get_parameters(self.instr_pointer)
-            arguments = self.get_arguments(parameters, parameter_modes)
-            # Parameters that an instruction writes to will never be in immediate mode:
-            result_position = parameters[-1]
-            self.set(result_position, self.operation(opcode, arguments))
-            self.instr_pointer += len(parameters) + 1
+            if opcode <= 2:
+                result_value = self.binary_operation(opcode)
+            result_position = self.get(self.instr_pointer+self.VALUES_IN_INSTRUCTION[opcode])
+            self.set(result_position, result_value)
+            # increment pointer
+            self.instr_pointer += self.VALUES_IN_INSTRUCTION[opcode] + 1
