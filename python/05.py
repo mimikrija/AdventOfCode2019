@@ -8,5 +8,7 @@ original_program = list(map(int, get_input('inputs/input05',',')))
 
 program_part_1 = Program(original_program, 1)
 program_part_1.run()
-party_1 = next(c for c in program_part_1.output if c != 0)
+# valid solution: all outputs except last are zero
+if all(c == 0 for c in program_part_1.output[:-1]):
+    party_1 = program_part_1.output[-1]
 print_solutions(party_1)
