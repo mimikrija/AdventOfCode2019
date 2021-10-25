@@ -22,7 +22,9 @@ class Program:
         self.memory[address] = value
 
     def get_argument(self, arg_pos):
-        immediate_mode = self.memory[self.instr_pointer] // 10**(2+arg_pos)
+        modes = self.get(self.instr_pointer) // 100
+        immediate_mode = (modes // 10**(arg_pos-1)) % 10
+        print(arg_pos, immediate_mode)
         parameter = self.memory[self.instr_pointer+arg_pos]
         if immediate_mode:
             return parameter
@@ -31,6 +33,7 @@ class Program:
 
     def binary_operation(self, opcode):
         first, second = [self.get_argument(pos) for pos in {1,2}]
+        print(first, second)
         if opcode == 1:
             return first + second
         if opcode == 2:
@@ -38,7 +41,8 @@ class Program:
 
     def run(self):
         while True:
-            opcode = self.get(self.instr_pointer)
+            opcode = self.get(self.instr_pointer) % 100
+            print(opcode, self.memory)
             if opcode == 99:
                 return
             if opcode <= 2:
