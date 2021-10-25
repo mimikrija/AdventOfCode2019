@@ -5,12 +5,14 @@ class Program:
     VALUES_IN_INSTRUCTION = {
         1: 3,
         2: 3,
+        3: 1,
         99: 0,
     }
 
-    def __init__(self, input):
+    def __init__(self, input, input_value=0):
         self.memory = list(input)
         self.instr_pointer = 0
+        self.input_value = input_value
 
     def get(self, address):
         return self.memory[address]
@@ -40,6 +42,8 @@ class Program:
                 return
             if opcode <= 2:
                 result_value = self.binary_operation(opcode)
+            if opcode == 3:
+                result_value = self.input_value
             result_position = self.get(self.instr_pointer+self.VALUES_IN_INSTRUCTION[opcode])
             self.set(result_position, result_value)
             # increment pointer
