@@ -13,6 +13,7 @@ class Program:
         self.memory = list(input)
         self.instr_pointer = 0
         self.input_value = input_value
+        self.output = []
 
     def get(self, address):
         return self.memory[address]
@@ -44,6 +45,9 @@ class Program:
                 result_value = self.binary_operation(opcode)
             if opcode == 3:
                 result_value = self.input_value
+            if opcode == 4:
+                self.output.append(self.get_argument(1))
+                continue
             result_position = self.get(self.instr_pointer+self.VALUES_IN_INSTRUCTION[opcode])
             self.set(result_position, result_value)
             # increment pointer
