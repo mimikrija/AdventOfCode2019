@@ -1,5 +1,7 @@
+from collections import deque
 from functools import reduce
 from operator import mod, mul
+from typing import Deque
 
 class Program:
     VALUES_IN_INSTRUCTION = {
@@ -17,10 +19,15 @@ class Program:
     OPCODES_WITH_STANDARD_JUMP = {1, 2, 3, 4, 7, 8}
     JUMP_OPCODES = {5, 6}
 
-    def __init__(self, input, input_value=0):
-        self.memory = list(input)
+    def __init__(self, code, inputs=None):
+        self.memory = list(code)
         self.instr_pointer = 0
-        self.input_value = input_value
+        if type(inputs) == int:
+            self.inputs = deque([inputs])
+        elif inputs:
+            self.inputs = deque(inputs)
+        else:
+            self.inputs = deque([])
         self.output = []
         self.pointer_increment = 0
 
@@ -71,7 +78,7 @@ class Program:
                 return
             if opcode in self.OPCODES_WHICH_WRITE_TO_MEMORY:
                 if opcode == 3:
-                    result_value = self.input_value
+                    result_value = self.inputs.popleft()
                 else:
                     result_value = self.binary_operation(opcode)
                 result_position = self.get(self.instr_pointer+self.VALUES_IN_INSTRUCTION[opcode])
