@@ -7,14 +7,22 @@ class Program:
         2: 3,
         3: 1,
         4: 1,
+        5: 2,
+        6: 2,
+        7: 3,
+        8: 3,
         99: 0,
     }
+    OPCODES_WHICH_WRITE_TO_MEMORY = {1, 2, 3, 7, 8}
+    OPCODES_WITH_STANDARD_JUMP = {1, 2, 3, 4, 7, 8}
+    JUMP_OPCODES = {5, 6}
 
     def __init__(self, input, input_value=0):
         self.memory = list(input)
         self.instr_pointer = 0
         self.input_value = input_value
         self.output = []
+        self.pointer_increment = 0
 
     def get(self, address):
         return self.memory[address]
@@ -37,21 +45,41 @@ class Program:
             return first + second
         if opcode == 2:
             return first * second
+        if opcode == 7: # less than
+            return int(first < second)
+        if opcode == 8: # equal to
+            return int(first == second)
+    
+    def jump_operation(self, opcode):
+        first, second = [self.get_argument(pos) for pos in {1,2}]
+        if opcode == 5: # jump-if-true
+            if first:
+                self.instr_pointer = second
+                return
+        if opcode == 6: # jump-if-false
+            if not first:
+                self.instr_pointer = second
+                return
+        # default if we don't jump:
+        self.instr_pointer += self.VALUES_IN_INSTRUCTION[opcode] + 1
+
 
     def run(self):
         while True:
             opcode = self.get(self.instr_pointer) % 100
             if opcode == 99:
                 return
-            if opcode <= 2:
-                result_value = self.binary_operation(opcode)
-            if opcode == 3:
-                result_value = self.input_value
-            if opcode == 4:
-                self.output.append(self.get_argument(1))
-            if opcode <= 3:
+            if opcode in self.OPCODES_WHICH_WRITE_TO_MEMORY:
+                if opcode == 3:
+                    result_value = self.input_value
+                else:
+                    result_value = self.binary_operation(opcode)
                 result_position = self.get(self.instr_pointer+self.VALUES_IN_INSTRUCTION[opcode])
                 self.set(result_position, result_value)
-            
+            elif opcode == 4:
+                self.output.append(self.get_argument(1))
             # increment pointer
-            self.instr_pointer += self.VALUES_IN_INSTRUCTION[opcode] + 1
+            if opcode in self.JUMP_OPCODES:
+                self.jump_operation(opcode)
+            else:
+                self.instr_pointer += self.VALUES_IN_INSTRUCTION[opcode] + 1
