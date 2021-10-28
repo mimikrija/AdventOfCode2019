@@ -30,6 +30,7 @@ class Program:
             self.inputs = deque([])
         self.output = []
         self.pointer_increment = 0
+        self.feedback_loop_mode = False
 
     def get(self, address):
         return self.memory[address]
@@ -90,3 +91,5 @@ class Program:
                 self.jump_operation(opcode)
             else:
                 self.instr_pointer += self.VALUES_IN_INSTRUCTION[opcode] + 1
+            if self.feedback_loop_mode and opcode == 4:
+                    return self.output[-1]
