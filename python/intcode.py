@@ -40,10 +40,15 @@ class Program:
     def set(self, address, value):
         self.memory[address] = value
 
-    def get_argument(self, arg_pos):
+    def get_argument(self, arg_pos, write_pos=False):
         modes = self.get(self.instr_pointer) // 100
         mode = (modes // 10**(arg_pos-1)) % 10
         parameter = self.get(self.instr_pointer+arg_pos)
+        # writing modes!!
+        if write_pos and mode <= 1:
+            return parameter
+        elif write_pos and mode == 2:
+            return parameter + self.relative_base
         if mode == 0: # position mode
             return self.get(parameter)
         if mode == 1: # imediate mode
@@ -87,7 +92,7 @@ class Program:
                     result_value = self.inputs.popleft()
                 else:
                     result_value = self.binary_operation(opcode)
-                result_position = self.get(self.instr_pointer+self.VALUES_IN_INSTRUCTION[opcode])
+                result_position = self.get_argument(self.VALUES_IN_INSTRUCTION[opcode], True)
                 self.set(result_position, result_value)
             elif opcode == 4:
                 self.output.append(self.get_argument(1))
