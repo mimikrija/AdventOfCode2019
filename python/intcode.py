@@ -1,7 +1,4 @@
 from collections import deque
-from functools import reduce
-from operator import mod, mul
-from typing import Deque
 
 class Program:
     VALUES_IN_INSTRUCTION = {
@@ -17,7 +14,6 @@ class Program:
         99: 0,
     }
     OPCODES_WHICH_WRITE_TO_MEMORY = {1, 2, 3, 7, 8}
-    OPCODES_WITH_STANDARD_JUMP = {1, 2, 3, 4, 7, 8, 9}
     JUMP_OPCODES = {5, 6}
 
     def __init__(self, code, inputs=None):
