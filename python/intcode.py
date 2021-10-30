@@ -31,6 +31,7 @@ class Program:
         self.output = []
         self.pointer_increment = 0
         self.feedback_loop_mode = False
+        self.relative_base = 0
 
     def get(self, address):
         return self.memory[address]
@@ -40,12 +41,15 @@ class Program:
 
     def get_argument(self, arg_pos):
         modes = self.get(self.instr_pointer) // 100
-        immediate_mode = (modes // 10**(arg_pos-1)) % 10
+        mode = (modes // 10**(arg_pos-1)) % 10
         parameter = self.memory[self.instr_pointer+arg_pos]
-        if immediate_mode:
-            return parameter
-        else: # position mode
+        if mode == 0: # position mode
             return self.memory[parameter]
+        if mode == 1: # imediate mode
+            return parameter
+        if mode == 2: # relative mode
+            return self.memory[parameter+self.relative_base]
+
 
     def binary_operation(self, opcode):
         first, second = [self.get_argument(pos) for pos in {1,2}]
