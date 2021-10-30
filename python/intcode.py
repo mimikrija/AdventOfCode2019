@@ -13,10 +13,11 @@ class Program:
         6: 2,
         7: 3,
         8: 3,
+        9: 1,
         99: 0,
     }
     OPCODES_WHICH_WRITE_TO_MEMORY = {1, 2, 3, 7, 8}
-    OPCODES_WITH_STANDARD_JUMP = {1, 2, 3, 4, 7, 8}
+    OPCODES_WITH_STANDARD_JUMP = {1, 2, 3, 4, 7, 8, 9}
     JUMP_OPCODES = {5, 6}
 
     def __init__(self, code, inputs=None):
@@ -90,6 +91,8 @@ class Program:
                 self.set(result_position, result_value)
             elif opcode == 4:
                 self.output.append(self.get_argument(1))
+            elif opcode == 9:
+                self.relative_base += self.get_argument(1)
             # increment pointer
             if opcode in self.JUMP_OPCODES:
                 self.jump_operation(opcode)
