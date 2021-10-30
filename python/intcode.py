@@ -21,7 +21,7 @@ class Program:
     JUMP_OPCODES = {5, 6}
 
     def __init__(self, code, inputs=None):
-        self.memory = list(code)
+        self.memory = {pos: code[pos] for pos in range(len(code))}
         self.instr_pointer = 0
         if type(inputs) == int:
             self.inputs = deque([inputs])
@@ -35,7 +35,7 @@ class Program:
         self.relative_base = 0
 
     def get(self, address):
-        return self.memory[address]
+        return self.memory.get(address, 0)
     
     def set(self, address, value):
         self.memory[address] = value
@@ -43,13 +43,13 @@ class Program:
     def get_argument(self, arg_pos):
         modes = self.get(self.instr_pointer) // 100
         mode = (modes // 10**(arg_pos-1)) % 10
-        parameter = self.memory[self.instr_pointer+arg_pos]
+        parameter = self.get(self.instr_pointer+arg_pos)
         if mode == 0: # position mode
-            return self.memory[parameter]
+            return self.get(parameter)
         if mode == 1: # imediate mode
             return parameter
         if mode == 2: # relative mode
-            return self.memory[parameter+self.relative_base]
+            return self.get(parameter+self.relative_base)
 
 
     def binary_operation(self, opcode):
