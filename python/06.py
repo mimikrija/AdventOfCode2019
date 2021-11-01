@@ -17,5 +17,6 @@ orbits = {planet: center for center, planet in (line.split(')') for line in get_
 planets = orbits.keys()
 
 party_1 = sum(len(generate_orbit(planet)) for planet in planets)
+party_2 = len(set(generate_orbit('SAN')) ^ set(generate_orbit('YOU')))
 
-print_solutions(party_1)
+print_solutions(party_1, party_2)
