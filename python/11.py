@@ -11,9 +11,11 @@ def get_color_and_rotation(robot_code, input_value):
     except:
         return None, None
 
-def paint_the_panel(robot_code):
-    positions = set()
+def paint_the_panel(robot_code, first_white=False):
     position = 0+0j
+    positions = set()
+    if first_white:
+        positions.add(position)
     direction = 0+1j
     painted_at_least_once = set()
     while True:
