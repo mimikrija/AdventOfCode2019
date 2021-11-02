@@ -11,7 +11,10 @@ def get_color_and_rotation(robot_code, input_value):
     except:
         return None, None
 
-def paint_the_panel(robot_code, first_white=False):
+def paint_the_panel(robot_instructions, first_white=False):
+    # initialize robot intcode program
+    robot_code = Program(robot_instructions)
+    robot_code.feedback_loop_mode = True
     position = 0+0j
     positions = set()
     if first_white:
@@ -35,10 +38,10 @@ def paint_the_panel(robot_code, first_white=False):
         position += direction
 
 
-# initialize robot intcode program
 robot_instructions = list(map(int, get_input('inputs/input11',',')))
-robot_code = Program(robot_instructions)
-robot_code.feedback_loop_mode = True
 
-_, party_1 = paint_the_panel(robot_code)
+_, party_1 = paint_the_panel(robot_instructions)
 print_solutions(party_1)
+
+panel_pt2, _ = paint_the_panel(robot_instructions, True)
+
