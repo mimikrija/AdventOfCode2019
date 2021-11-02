@@ -40,5 +40,5 @@ robot_instructions = list(map(int, get_input('inputs/input11',',')))
 robot_code = Program(robot_instructions)
 robot_code.feedback_loop_mode = True
 
-panel, party_1 = paint_the_panel(robot_code)
+_, party_1 = paint_the_panel(robot_code)
 print_solutions(party_1)
