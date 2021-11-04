@@ -37,6 +37,20 @@ def paint_the_panel(robot_instructions, first_white=False):
             direction *= 0-1j # rotate right
         position += direction
 
+def print_from_set(in_set):
+    cr = lambda x: x.real
+    ci = lambda y: y.imag
+    width = int(cr(max(in_set, key=cr))) + 1
+    heigth = int(ci(max(in_set, key=ci))) + 1
+    hull = [width * [' '] for _ in range(heigth)]
+    for position in in_set:
+        x = int(position.real)
+        y = int(position.imag)
+        hull[y][x] = '#'
+
+    for line in hull:
+        print(''.join(c for c in line))
+
 
 robot_instructions = list(map(int, get_input('inputs/input11',',')))
 
@@ -44,5 +58,6 @@ painted_at_least_once, _ = paint_the_panel(robot_instructions)
 party_1 = len(painted_at_least_once)
 print_solutions(party_1)
 
-panel_pt2, _ = paint_the_panel(robot_instructions, True)
-
+_, painted_hull = paint_the_panel(robot_instructions, True)
+print('Part 2 solution is:\n')
+print_from_set(painted_hull)
